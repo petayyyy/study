@@ -93,7 +93,7 @@ void GetTemp(){
   if (isnan(sensorValues[Temp]))
   {
     Serial.println("Failed to read from DHT11 sensor!");
-    sensorValues[Temp] = 35;
+    sensorValues[Temp] = 25;
   }
 }
 void sensor(){
@@ -127,6 +127,7 @@ void sensor(){
 
 void printData()
 {
+  Serial.println("Обработанные данные:");
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd_printstr("T = " + String(sensorValues[Temp]) + " *C");
@@ -169,14 +170,14 @@ void sendThingWorxStream()
       Serial.print("?appKey="); client.print("?appKey=");
       Serial.print(appKey);  client.print(appKey);
       Serial.print("&method=post&x-thingworx-session=true");  client.print("&method=post&x-thingworx-session=true");
+      
       // Отправка данных с датчиков
-      for (int idx = 0; idx < sensorCount; idx ++)
-      {
-        Serial.print("&"); client.print("&"); 
-        Serial.print(sensorName[idx]);  client.print(sensorName[idx]);
-        Serial.print("=");  client.print("=");
-        Serial.print(sensorValues[idx]); client.print(sensorValues[idx]);
-      }
+      Serial.println();
+      Serial.println("Отправляем данные:");
+      Serial.print("&"); client.print("&");Serial.print(sensorName[0]);  client.print(sensorName[0]);
+      Serial.print("=");  client.print("=");Serial.print(sensorValues[0]); client.print(sensorValues[0]);
+      Serial.print("&"); client.print("&");Serial.print(sensorName[2]);  client.print(sensorName[2]);
+      Serial.print("=");  client.print("=");Serial.print(sensorValues[2]); client.print(sensorValues[2]);
       Serial.println();
       client.println(" HTTP/1.1");  client.println("Accept: application/json");   client.print("Host: ");   client.println(iot_server);   client.println("Content-Type: application/json");   client.println();
       
@@ -215,8 +216,8 @@ void sendThingWorxStream()
       }
       buff[iii] = '}';
       buff[iii + 1] = '\0';
-      Serial.println(buff);
-
+      
+      //Serial.println(buff);
       StaticJsonBuffer<BUFF_LENGTH> jsonBuffer;
       JsonObject& json_array = jsonBuffer.parseObject(buff);
       sensorValues[Led] = json_array["Led"];
@@ -231,5 +232,6 @@ void loop() {
   sendThingWorxStream();
   sensor();
   printData();
+  Serial.println("/////////////////////////////////////////////////////////////////////////////");
   delay(1000);
 }

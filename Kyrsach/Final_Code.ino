@@ -14,7 +14,7 @@ DHT dht(DHTPIN, DHT11);
 
 // Display
 #include <LiquidCrystal_I2C.h>
-LiquidCrystal_I2C lcd(0x27,16,2);
+LiquidCrystal_I2C lcd(0x27,20,4);
 
 // Sensor
 #define sensorCount 3
@@ -130,18 +130,18 @@ void printData()
   Serial.println("Обработанные данные:");
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd_printstr("T = " + String(sensorValues[Temp]) + " *C");
-  Serial.println("T = " + String(sensorValues[Temp]) + " *C");
+  lcd_printstr("T=" + String(sensorValues[Temp]) + "*C");
+  Serial.println("T=" + String(sensorValues[Temp]) + "*C");
   lcd.setCursor(0, 1);
+  lcd_printstr("Servo_door = " + String(sensorValues[Servo_door]) + " grad");
+  Serial.println("Servo_door = " + String(sensorValues[Servo_door]) + " grad");
+  lcd.setCursor(0, 2);
   String color = "Blue";
   if (sensorValues[Led] == 1){ color = "Yellow";}
   else if (sensorValues[Led] == 2){ color = "Green";} 
   else if (sensorValues[Led] == 3){ color = "Red";} 
   lcd_printstr("Led = " + color);
   Serial.println("Led = " + color);
-  lcd.setCursor(0, 2);
-  lcd_printstr("Servo_door = " + String(sensorValues[Servo_door]) + " grad");
-  Serial.println("Servo_door = " + String(sensorValues[Servo_door]) + " grad");
   Serial.println();
 }
 void lcd_printstr(String str1)

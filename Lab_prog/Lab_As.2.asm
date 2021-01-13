@@ -1,3 +1,9 @@
+/*
+ * main.asm
+ *
+ * Created: 1/12/2021 2:42:55 PM
+ *  Author: ilyah
+ */ 
 .include "m168def.inc"
 ;F = A * (B + 4) / 5 + (C – 1) / 2 * (D + 2)
 ;F = A B 4 + * 5 / C – 1 2 / D 2 + * +

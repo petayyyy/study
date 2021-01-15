@@ -54,7 +54,7 @@ void setup() {
 }
 
 void GetTemp(){
-  sensorValues[IP18131101TEMP] += (last_door - sensorValues[Servo_door]);
+  sensorValues[IP18131101TEMP] += (last_door - sensorValues[Servo_door])/2;
 }
 
 void printData()

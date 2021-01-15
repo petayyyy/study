@@ -56,6 +56,7 @@ void setup() {
 }
 
 void GetTemp(){
+  //sensorValues[IP18131101TEMP] = 35;
   sensorValues[IP18131101TEMP] = start_temp - (last_door - sensorValues[Servo_door])/2;
   if (sensorValues[IP18131101TEMP] < 0){
     sensorValues[IP18131101TEMP] = 0;

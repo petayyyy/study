@@ -34,7 +34,7 @@ float sensorValues[sensorCount];
 
 // Servo
 #include <ESP32Servo.h>
-#define SERVOPIN 17
+#define SERVOPIN 34
 Servo myservo;  
 
 // WiFi config

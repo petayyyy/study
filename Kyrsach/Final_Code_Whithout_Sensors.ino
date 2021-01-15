@@ -11,6 +11,7 @@ WiFiClient client;
 char* sensorName[] = {"IP18131101TEMP","Led","Servo_door"};
 float sensorValues[sensorCount];
 int last_door = 0;
+int start_temp = 0;
 
 // Name Sensor
 #define  IP18131101TEMP 0
@@ -24,7 +25,7 @@ char pass[] = "1234567890";
 // ThingWorx
 char iot_server[] = "192.168.43.36";
 IPAddress iot_address(192,168,43,36);
-char appKey[] = "30bf4fe9-5d55-4ddb-990a-3cdcbdfa8fb2";
+char appKey[] = "e4f6bf91-5c87-4dae-ad36-a4a8069d21e0";
 char thingName[] = "Kyrsovay";
 char serviceName[] = "Code";
 
@@ -40,7 +41,8 @@ char buff[BUFF_LENGTH] = "";
 void setup() {
   Serial.begin(115200);
   Serial.println("Получение первого показателя датчика");
-  sensorValues[IP18131101TEMP] = random(40);
+  start_temp = random(27);
+  sensorValues[IP18131101TEMP] = start_temp;
   Serial.println(sensorValues[IP18131101TEMP]);
   
   Serial.println("Conecting to WiFi");
@@ -54,7 +56,10 @@ void setup() {
 }
 
 void GetTemp(){
-  sensorValues[IP18131101TEMP] += (last_door - sensorValues[Servo_door])/2;
+  sensorValues[IP18131101TEMP] = start_temp - (last_door - sensorValues[Servo_door])/2;
+  if (sensorValues[IP18131101TEMP] < 0){
+    sensorValues[IP18131101TEMP] = 0;
+  }
 }
 
 void printData()

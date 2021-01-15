@@ -10,6 +10,7 @@ WiFiClient client;
 #define sensorCount 3
 char* sensorName[] = {"IP18131101TEMP","Led","Servo_door"};
 float sensorValues[sensorCount];
+int last_door = 0;
 
 // Name Sensor
 #define  IP18131101TEMP 0
@@ -38,6 +39,9 @@ char buff[BUFF_LENGTH] = "";
 
 void setup() {
   Serial.begin(115200);
+  Serial.println("Получение первого показателя датчика");
+  sensorValues[IP18131101TEMP] = random(40);
+  Serial.println(sensorValues[IP18131101TEMP]);
   
   Serial.println("Conecting to WiFi");
   WiFi.begin(ssid, pass);
@@ -50,7 +54,7 @@ void setup() {
 }
 
 void GetTemp(){
-  sensorValues[IP18131101TEMP] = random(40);
+  sensorValues[IP18131101TEMP] += (last_door - sensorValues[Servo_door]);
 }
 
 void printData()

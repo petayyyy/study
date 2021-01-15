@@ -53,15 +53,9 @@ long timer_iot_timeout = 0;
 #define TIMEOUT 1000 // 1 second timout
 #define IOT_TIMEOUT1 5000
 #define IOT_TIMEOUT2 100
-unsigned long timer_thingworx = 0;
-unsigned long timer_print = 0;
-unsigned long timer_auto = 0;
-unsigned long timer_sensors = 0;
 
 #define BUFF_LENGTH 256
 char buff[BUFF_LENGTH] = "";
-int btn_state = 0;
-int auto_control = 0;
 
 void setup() {
   Serial.begin(115200);

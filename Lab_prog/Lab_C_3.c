@@ -19,7 +19,7 @@ int main(void)
 		  break;}
   }
   i = 0;
-  while ((a[i] != 0) || (PORTB > 0)){
+  while ((a[i] != 0) && (PORTB == 0)){
 	j = i;
 	while(a[j] != 0){
 		if (a[i] == a[j] && i != j) {

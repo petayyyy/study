@@ -25,10 +25,10 @@ me.Last_command_number = parseInt(n);
 //me.Y =parseInt(Y);
 //me.Gripper = parseInt(G);
 //me.Lights_color_code = parseInt(L);
-me.Lights_color_code = 1;
+//me.Lights_color_code = 1;
 //me.Current_command_number = parseInt(N);
 
 
 
-me.List.AddRow({X:me.X, Y:me.Y, Gripper:0, Current_command_number:me.Current_command_number, Last_command_number:me.Last_command_number, Lights_color_code:me.Lights_color_code, Start_point:me.Start_point, Status:me.Status, Load1:me.Load1, Load2:me.Load2, Load3:me.Load3, Load4:me.Load4, Load5:me.Load5, Load6:me.Load6, Motor1:me.Motor1, Motor2:me.Motor2, Motor3:me.Motor3, Motor4:me.Motor4, Motor5:me.Motor5, Motor6:me.Motor6, Tem1:me.Temp1, Tem2:me.Temp2, Tem3:me.Temp3, Tem4:me.Temp4, Tem5:me.Temp5, Tem6:me.Temp6});
+me.List.AddRow({X:me.X, Y:me.Y, Gripper:me.Gripper, Current_command_number:me.Current_command_number, Last_command_number:me.Last_command_number, Lights_color_code:me.Lights_color_code, Start_point:me.Start_point, Status:me.Status, Load1:me.Load1, Load2:me.Load2, Load3:me.Load3, Load4:me.Load4, Load5:me.Load5, Load6:me.Load6, Motor1:me.Motor1, Motor2:me.Motor2, Motor3:me.Motor3, Motor4:me.Motor4, Motor5:me.Motor5, Motor6:me.Motor6, Tem1:me.Temp1, Tem2:me.Temp2, Tem3:me.Temp3, Tem4:me.Temp4, Tem5:me.Temp5, Tem6:me.Temp6});
 result = {"X":me.X, "Y": me.Y, "G":me.Gripper, "N":me.Current_command_number, "s":me.Status, "L":me.Lights_color_code};

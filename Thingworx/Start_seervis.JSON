@@ -1,0 +1,54 @@
+if (me.Start_point==7 || me.i>0){
+    if (me.i === 0 ){
+        me.i++;
+    }    
+    if (me.i==1)
+    {
+        me.X=116;
+        me.Y=172;
+        me.Gripper=1;
+        me.INC();
+        me.i++;
+    }
+    else if(me.i==2)
+    {
+        me.X=129;
+        me.Y=119;
+        me.INC();
+        me.i++;
+    }
+    else if(me.i==3)
+    {
+        me.X=159;
+        me.Y=83;
+        me.INC();
+        me.i++;
+    }
+    else if(me.i==4)
+    {
+        me.X=168;
+        me.Y=142;
+        me.INC();
+        me.i++;
+    }
+    else if(me.i==5)
+    {
+        me.X=172;
+        me.Y=203;
+        me.INC();
+        me.i++;
+    }
+    else if(me.i==6)
+    {
+        me.X=174;
+        me.Y=264;
+        me.Gripper=0;
+        me.INC();
+        me.i = 0;
+        me.Start_point=0;
+    }
+    else if (me.i >= 6 ){
+        me.i = 0;
+        me.Current_command_number = 0;
+    }
+}

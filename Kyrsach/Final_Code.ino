@@ -18,11 +18,11 @@ LiquidCrystal_I2C lcd(0x27,20,4);
 
 // Sensor
 #define sensorCount 3
-char* sensorName[] = {"IP18131101TEMP","Led","Servo_door"};
+char* sensorName[] = {"Temp","Led","Servo_door"};
 float sensorValues[sensorCount];
 
 // Name Sensor
-#define  IP18131101TEMP 0
+#define  Temp 0
 #define  Led 1
 #define  Servo_door 2
 
@@ -83,11 +83,11 @@ void setup() {
 }
 
 void GetTemp(){
-  sensorValues[IP18131101TEMP] = dht.readTemperature();
-  if (isnan(sensorValues[IP18131101TEMP]))
+  sensorValues[Temp] = dht.readTemperature();
+  if (isnan(sensorValues[Temp]))
   {
     Serial.println("Failed to read from DHT11 sensor!");
-    sensorValues[IP18131101TEMP] = 25;
+    sensorValues[Temp] = 25;
   }
 }
 void sensor(){
@@ -124,8 +124,8 @@ void printData()
   Serial.println("Обработанные данные:");
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd_printstr("T=" + String(sensorValues[IP18131101TEMP]) + "*C");
-  Serial.println("T=" + String(sensorValues[IP18131101TEMP]) + "*C");
+  lcd_printstr("T=" + String(sensorValues[Temp]) + "*C");
+  Serial.println("T=" + String(sensorValues[Temp]) + "*C");
   lcd.setCursor(0, 1);
   lcd_printstr("Servo_door = " + String(sensorValues[Servo_door]) + " grad");
   Serial.println("Servo_door = " + String(sensorValues[Servo_door]) + " grad");

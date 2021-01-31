@@ -15,7 +15,7 @@
 .def NUM = r21
 .def HAG = r22
 
-LDI STAK, low(RAMEND) 		; Создаю стак памяти
+LDI STAK, low(RAMEND) 		; Создаю стак
 OUT SPL, STAK
 LDI STAK, high(RAMEND)
 OUT SPH, STAK
@@ -28,21 +28,21 @@ CLR STAK
 .CSEG  		; Начало программы
 .ORG 0x07
 
-ARRAY: .db 21, 4, 10, 2, 100, 30, 202, 12, 6, 7 		; Ввожу массив
+ARRAY: .db 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 		; Ввожу массив
 
 
 ldi ZH, High(ARRAY*2)
 ldi ZL, Low(ARRAY*2)
 
-CLR I
+CLR I		; Обнуление переменных
 CLR NUM
 CLR RESULT
 CLR MINIMUM
 CLR MAXIMUM
 
-LPM MINIMUM, Z+
+LPM MINIMUM, Z+		; Беру первый элемент массива за минимум
 
-FINDMIN:
+FINDMIN:		; Ищу минимум массива
 	CPI I, 9
 	BREQ ENDMIN
 
@@ -51,23 +51,23 @@ FINDMIN:
 
 	CP NUM, MINIMUM
 	BRLO NEWMIN
-
 	RJMP FINDMIN
 
-NEWMIN:
+NEWMIN:			; Запоминаю минимум
 	MOV MINIMUM, NUM
 	RJMP FINDMIN
 
 ENDMIN:
 
-	ldi ZH, High(ARRAY*2)
+	ldi ZH, High(ARRAY*2)		; Начинаю заново перебирать массив
 	ldi ZL, Low(ARRAY*2)
-	LPM MAXIMUM, Z+
+	LPM MAXIMUM, Z+		; Беру первый элемент за максимум
 	CLR I
 	LDI HAG, 6
-	ADD MINIMUM, HAG
+	ADD MINIMUM, HAG		; Прибавляю 6 к минимому по условию задания
+	BRBS 0, ERROR		; Проверяю на переполнение
 
-FINDMAX:
+FINDMAX:		; Ищу максимум
 	CPI I, 9
 	BREQ ENDMAX
 
@@ -76,21 +76,21 @@ FINDMAX:
 
 	CP NUM, MAXIMUM
 	BRSH NEWMAX
-
 	RJMP FINDMAX
 
-NEWMAX:
+NEWMAX:		; Запоминаю максисмум
 	MOV MAXIMUM, NUM
 	RJMP FINDMAX
 
 ENDMAX:
-	ldi ZH, High(ARRAY*2)
+	ldi ZH, High(ARRAY*2)		; Начинаю заново перебирать массив
 	ldi ZL, Low(ARRAY*2)
 	CLR I
 	LDI HAG, 5
-	SUB MAXIMUM, HAG
+	SUB MAXIMUM, HAG		; Вычитаю 5 из максимума по условию задания
+	BRBS 0, ERROR		; Проверяю на отрицательные значения
 
-FINDNUM:
+FINDNUM:		; Ищу количество подходящих чисел
 	CPI I, 10
 	BREQ ENDNUM
 
@@ -99,7 +99,6 @@ FINDNUM:
 
 	CP NUM, MAXIMUM
 	BRLO FINDNUMM
-
 	RJMP FINDNUM
 
 FINDNUMM:
@@ -107,13 +106,14 @@ FINDNUMM:
 	BRSH PLUS
 	RJMP FINDNUM
 
-PLUS:
+PLUS:		; Запоминаю подходящие числа в стак и обновляю их колияество
 	INC RESULT
 	PUSH NUM
 	RJMP FINDNUM
+
 ENDNUM:
-	OUT PORTD, RESULT
-	STS  SRAM_START, RESULT 
+	OUT PORTD, RESULT		; Вывожу количество подходящих чисел в порт D 
+	STS  SRAM_START, RESULT			; Отправляю колличество подходящих чисел в ОЗУ 
 	LDI  XL, LOW(SRAM_START + 1)  
 	LDI  XH, HIGH(SRAM_START + 1)                
 	CLR I
@@ -121,8 +121,14 @@ ENDNUM:
 RAMPUSH:   
 	INC  I 
 	POP  NUM 
-	ST   X+, NUM 
+	ST   X+, NUM		; Отправляю значения в ОЗУ
 	CP   I, RESULT
 	BRNE RAMPUSH 
 	RJMP END
-END: RJMP END
+
+END: RJMP END		; Конец программы
+
+ERROR:		; Конец программы если нашлась ошибка
+	LDI HAG, 2
+	OUT PORTB, HAG		; Вывожу наличие ошибки(2) в порт B 
+	RJMP ERROR

@@ -1,132 +1,128 @@
+;
+; AssemblerApplication9.asm
+;
+; Created: 31.01.2021 16:03:51
+; Author : ilyah
+;
+
 .include "m168def.inc"
 
-.def minim = r16
-.def element = r17
-.def count = r18
-.def temp = r19
-.def maxim = r20
-.def counter = r21
-.def var = r22
-.def place = r23
-.def numb_ele = r24
-.def count_fit = r25
+.def MINIMUM = r16
+.def MAXIMUM = r17
+.def RESULT = r18
+.def STAK = r19
+.def I = r20
+.def NUM = r21
+.def HAG = r22
 
-ldi temp, low(RAMEND) ;Указатель стека указывает
-out SPL, temp ;на последний адрес ОЗУ
-ldi temp, high(RAMEND)
-out SPH, temp
-clr temp
+LDI STAK, low(RAMEND) 		; Создаю стак памяти
+OUT SPL, STAK
+LDI STAK, high(RAMEND)
+OUT SPH, STAK
+CLR STAK
 
-.dseg
-array2: .BYTE 11
+.DSEG		; Выделяю память ОЗУ под ответ и выходной массив
+.ORG SRAM_Start
+.BYTE 11
 
-.cseg
+.CSEG  		; Начало программы
+.ORG 0x07
 
-array: .db 21, 4, 10, 2, 100, 30, 202, 12, 6, 7
-
-
-ldi ZH, High(array*2)
-ldi ZL, Low(array*2)
+ARRAY: .db 21, 4, 10, 2, 100, 30, 202, 12, 6, 7 		; Ввожу массив
 
 
+ldi ZH, High(ARRAY*2)
+ldi ZL, Low(ARRAY*2)
 
-ldi count, 0
-ldi counter, 0
-ldi count_fit, 0
-ldi numb_ele, 0
+CLR I
+CLR NUM
+CLR RESULT
+CLR MINIMUM
+CLR MAXIMUM
 
+LPM MINIMUM, Z+
 
-lpm minim, Z+
-loop:
-cpi count, 10
-breq loop1
+FINDMIN:
+	CPI I, 9
+	BREQ ENDMIN
 
-lpm element, Z+
-inc count
-cp element, minim
-brlo newmin
-rjmp loop
+	LPM NUM, Z+
+	INC I
 
-newmin:
-mov minim, element
-clr element
-rjmp loop
+	CP NUM, MINIMUM
+	BRLO NEWMIN
 
-loop1:
-ldi ZL, Low(array*2)
-ldi ZH, High(array*2)
-lpm maxim, Z+
+	RJMP FINDMIN
 
+NEWMIN:
+	MOV MINIMUM, NUM
+	RJMP FINDMIN
 
+ENDMIN:
 
+	ldi ZH, High(ARRAY*2)
+	ldi ZL, Low(ARRAY*2)
+	LPM MAXIMUM, Z+
+	CLR I
+	LDI HAG, 6
+	ADD MINIMUM, HAG
 
-ldi count, 0
+FINDMAX:
+	CPI I, 9
+	BREQ ENDMAX
 
-loop2:
-inc count
-cpi count, 10
-breq loop3
+	LPM NUM, Z+
+	INC I
 
-lpm element, Z+
-cp element, maxim
-brlo loop2
-breq loop2
-rjmp newmax
+	CP NUM, MAXIMUM
+	BRSH NEWMAX
 
+	RJMP FINDMAX
 
-newmax:
-mov maxim, element
-clr element
-rjmp loop2
+NEWMAX:
+	MOV MAXIMUM, NUM
+	RJMP FINDMAX
 
+ENDMAX:
+	ldi ZH, High(ARRAY*2)
+	ldi ZL, Low(ARRAY*2)
+	CLR I
+	LDI HAG, 5
+	SUB MAXIMUM, HAG
 
-loop3:
-clr element
-ldi ZL, Low(array*2)
-ldi ZH, High(array*2)
-ldi count, 0
-rjmp compare
-compare:
-lpm element, Z+
-inc counter
-cpi counter, 10
-breq place_element
+FINDNUM:
+	CPI I, 10
+	BREQ ENDNUM
 
+	LPM NUM, Z+
+	INC I
 
-mov temp, element
-mov var, maxim
-mov count, element
+	CP NUM, MAXIMUM
+	BRLO FINDNUMM
 
-sub element, minim
-cpi element, 6
-brlo compare
-breq compare
-sub var, count
-cpi var, 5
-brlo compare
-breq compare
-rjmp placefit
+	RJMP FINDNUM
 
+FINDNUMM:
+	CP NUM, MINIMUM
+	BRSH PLUS
+	RJMP FINDNUM
 
-placefit:
-inc count_fit
-push temp
-rjmp compare
+PLUS:
+	INC RESULT
+	PUSH NUM
+	RJMP FINDNUM
+ENDNUM:
+	OUT PORTD, RESULT
+	STS  SRAM_START, RESULT 
+	LDI  XL, LOW(SRAM_START + 1)  
+	LDI  XH, HIGH(SRAM_START + 1)                
+	CLR I
 
-
-
-place_element:
-sts array2, count_fit
-ldi XL, LOW(array2 + 1)
-ldi XH, HIGH(array2 + 1)
-
-placing:
-inc numb_ele
-pop place
-st X+, place
-cp numb_ele, count_fit
-brne placing
-end:
-nop
-
-rjmp end
+RAMPUSH:   
+	INC  I 
+	POP  NUM 
+	ST   X+, NUM 
+	CP   I, RESULT
+	BRNE RAMPUSH 
+	RJMP END
+END: RJMP END

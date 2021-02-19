@@ -14,6 +14,9 @@ set_attitude = rospy.ServiceProxy('set_attitude', srv.SetAttitude)
 set_rates = rospy.ServiceProxy('set_rates', srv.SetRates)
 land = rospy.ServiceProxy('land', Trigger)
 
+def main():
+    global Deliver
+    Deliver = Delivery()
 print navigate(x=0, y=0, z=1.5, speed=0.5, frame_id='body', auto_arm=True)
 rospy.sleep(4)
 

@@ -23,16 +23,12 @@ land = rospy.ServiceProxy('land', Trigger)
 
 bridge = CvBridge()
 
-#rospy.init_node('barcode_test')
-
-
 navigate(x=0, y=0, z=1, speed=1, frame_id='body', auto_arm=True)
 rospy.sleep(4)
 
 navigate(x=1, y=1, z=1, speed=1, frame_id='aruco_map')
 rospy.sleep(5)
 
-# Image subscriber callback function
 def image_callback(data):
     global bridge, pi, M, m
     cv_image = bridge.imgmsg_to_cv2(data, 'bgr8')  # OpenCV image

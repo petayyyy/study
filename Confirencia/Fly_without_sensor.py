@@ -1,4 +1,6 @@
 import rospy
+import pigpio
+import time
 from clover import srv
 from std_srvs.srv import Trigger
 from pyzbar import pyzbar

@@ -51,6 +51,7 @@ def image_callback(data):
             go = False
 
 def open():
+    global pi
     pi.set_servo_pulsewidth(13, 1000)
     time.sleep(3)
     pi.set_servo_pulsewidth(13, 2000)

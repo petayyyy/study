@@ -37,7 +37,7 @@ def image_callback(data):
         b_data = barcode.data.encode("utf-8")
         number_bag = b_data[0]
         if number_bag == '509910002134':
-            print ("QR detect bag delived:{}".format(number_bag))
+            print("Detect Qr and bag delived:{}".format(number_bag))
             pi = pigpio.pi()
             pi.set_mode(13, pigpio.OUTPUT)
             M = 540
@@ -49,6 +49,8 @@ def image_callback(data):
             rospy.sleep(10)
             land()
             go = False
+        else:
+            print("Bag don't detect only :{}".format(number_bag))
 
 def open():
     global pi

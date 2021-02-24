@@ -38,9 +38,6 @@ def image_callback(data):
         number_bag = b_data[0]
         if number_bag == '509910002134':
             print("Detect Qr and bag delived:{}".format(number_bag))
-            pi = pigpio.pi()
-            pi.set_mode(13, pigpio.OUTPUT)
-            M = 540
             telemetry = get_telemetry('body')
             h = (telemetry.z * M) / (M + m)
             print navigate(x=0, y=0, z=(telemetry.z - h), speed=1, frame_id='navigate_target')

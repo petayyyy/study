@@ -61,21 +61,21 @@ namespace WinFormsApp1
             {
                 unsafe
                 {
-                    Debug.Text = fire_y.ToString();
+                    Debug.Text = (fire_y + size / 2).ToString();
                     int d = 80000;
-                    if (fire_y >= 300 && fire_y < 445)
+                    if (fire_y + size/2  >= 300 && fire_y + size / 2 < 445)
                     {
                         //fire_y = 444;
-                        d = 10000;
+                        d = 20000;
                     }
-                    else if (fire_y >= 445)
+                    else if (fire_y + size / 2 >= 445 - size / 2)
                     {
-                        fire_y = 444;
+                        fire_y = 444 - size / 2;
                         d = -1000;
                     }
-                    if (fire_x <= 10)
+                    if (fire_x <= size / 4)
                     {
-                        fire_x = 10;
+                        fire_x = size / 4;
                     }
                     BitmapData bmpLook = workBmp.LockBits(
                     new Rectangle(Point.Empty, workBmp.Size),

@@ -20,8 +20,12 @@ namespace WinFormsApp1
         int fire_x = 100;
         int fire_y = 100;
         int size = 30;
+        int R1 = 255; int G1 = 0;   int B1 = 0;
+        int R2 = 255; int G2 = 255; int B2 = 0;
         bool flag_start = false;
         bool first = true;
+        bool f1 = true;
+        bool f2 = true;
         public Form1()
         {
             InitializeComponent();
@@ -37,8 +41,8 @@ namespace WinFormsApp1
             for (int i = 0; i < 64; i++)
             {
                 pal.Entries[i] = Color.FromArgb(i << 2, 0, 0); //заливка сзади
-                pal.Entries[i + 64] = Color.FromArgb(255, 0, 0); //внешний контур
-                pal.Entries[i + 128] = Color.FromArgb(255, 255, 0); // внутренний огонек
+                pal.Entries[i + 64] = Color.FromArgb(R1, G1, B1); //внешний контур
+                pal.Entries[i + 128] = Color.FromArgb(R2, G2, B2); // внутренний огонек
                 //Попытка увеличить белую составляющую
                 pal.Entries[i + 192] = Color.FromArgb(255, 255, 255); // белые блики снизу
             }
@@ -61,7 +65,7 @@ namespace WinFormsApp1
             {
                 unsafe
                 {
-                    Debug.Text = (fire_y + size / 2).ToString();
+                    //Debug.Text = (fire_y + size / 2).ToString();
                     int d = 80000;
                     if (fire_y + size/2  >= 300 && fire_y + size / 2 < 445)
                     {
@@ -148,8 +152,6 @@ namespace WinFormsApp1
                 }
             }
         }
-        int r1, r2, g1, g2,  b1, b2;
-
         private void button3_Click(object sender, EventArgs e)
         {
             // Stop button
@@ -206,6 +208,98 @@ namespace WinFormsApp1
             }
            }
 
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            parse_data(G.Text, "G");
+        }
+
+        public void parse_data(string text, string S)
+        {
+            bool res = int.TryParse(text, out int xx);
+            if (res == false)
+            {
+                MessageBox.Show("Вы ввели не число");
+            }
+            else
+            {
+                if (xx < 0)
+                {
+                    MessageBox.Show("Вы ввели отрицательное число или 0");
+                }
+                else
+                if (xx > 255)
+                {
+                    MessageBox.Show("Ширина не больше 250");
+                }
+                else
+                {
+                    if (S == "R")
+                    {
+                        if (!f1)
+                        {
+                            R1 = xx;
+                        }
+                        else if (!f2)
+                        {
+                            R2 = xx;
+                        }
+                        R.Text = xx.ToString();
+                    }
+                    else if (S == "G")
+                    {
+                        if (!f1)
+                        {
+                            G1 = xx;
+                        }
+                        else if (!f2)
+                        {
+                            G2 = xx;
+                        }
+                        G.Text = xx.ToString();
+                    }
+                    else if (S == "B")
+                    {
+                        if (!f1)
+                        {
+                            B1 = xx;
+                        }
+                        else if (!f2)
+                        {
+                            B2 = xx;
+                        }
+                        B.Text = xx.ToString();
+                    }
+                }
+            }
+        }
+        private void R_TextChanged(object sender, EventArgs e)
+        {
+            parse_data(R.Text, "R");
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+             parse_data(B.Text, "B");
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (f1)
+            {
+                R.Text = R1.ToString();
+                B.Text = B1.ToString();
+                G.Text = G1.ToString();
+                f1 = false;
+            }
+            else
+            {
+                R.Text = "";
+                B.Text = "";
+                G.Text = "";
+                f1 = true;
+            }
+        }
+
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             Size01.Text = hScrollBar1.Value.ToString();
@@ -216,8 +310,6 @@ namespace WinFormsApp1
         {
 
         }
-
-        int r01, r02, g01, g02, b01, b02;
 
         private void pictureBox1_Click_1(object sender, EventArgs e)
         {
@@ -233,6 +325,25 @@ namespace WinFormsApp1
         {
             
         }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (f2)
+            {
+                R.Text = R2.ToString();
+                B.Text = B2.ToString();
+                G.Text = G2.ToString();
+                f2 = false;
+            }
+            else
+            {
+                R.Text = "";
+                B.Text = "";
+                G.Text = "";
+                f2 = true;
+            }
+        }
     }
     }
+
 

@@ -40,7 +40,7 @@ namespace WinFormsApp1
             ColorPalette pal = workBmp.Palette;
             for (int i = 0; i < 64; i++)
             {
-                pal.Entries[i] = Color.FromArgb(i << 2, 0, 0); //заливка сзади
+                pal.Entries[i] = Color.FromArgb(0, 0, 0); //заливка сзади
                 pal.Entries[i + 64] = Color.FromArgb(R1, G1, B1); //внешний контур
                 pal.Entries[i + 128] = Color.FromArgb(R2, G2, B2); // внутренний огонек
                 //Попытка увеличить белую составляющую
@@ -108,8 +108,8 @@ namespace WinFormsApp1
                     //Debug.Text = (fire_x).ToString();
                     for (int x = poprr; x < size + popr; x++)
                     {
-                        *(pointbottom + x) = (Byte)rnd.Next(100, 255);
-                        *(pointtop + x) = (Byte)rnd.Next(100, 255);
+                        *(pointbottom + x) = (Byte)rnd.Next(100, 255); //внутренний контур
+                       // *(pointtop + x) = (Byte)rnd.Next(0, 255);
                     }
                     //Заполняем остальные точки, значениями усредненными по алгоритму
                     for (i = pointtop; i < pointbottom + d; i++)
@@ -345,5 +345,4 @@ namespace WinFormsApp1
         }
     }
     }
-
 

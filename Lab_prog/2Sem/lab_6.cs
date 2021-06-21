@@ -18,7 +18,7 @@ namespace WinFormsApp1
         int viWidth = 640;
         int viHeight = 480;
         int fire_x = 100;
-        int fire_y = 300;
+        int fire_y = 100;
         int size = 30;
         bool flag_start = false;
         bool first = true;
@@ -62,38 +62,55 @@ namespace WinFormsApp1
                 unsafe
                 {
                     Debug.Text = fire_y.ToString();
-                    if (fire_y < 8000)
+                    int d = 80000;
+                    if (fire_y >= 300 && fire_y < 445)
                     {
-                        BitmapData bmpLook = workBmp.LockBits(
-                        new Rectangle(Point.Empty, workBmp.Size),
-                        ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
-                        //bufdata - указатель на левую верхнюю точку рисунка
-                        Byte* pointtop = (Byte*)bmpLook.Scan0;
-                        //pointbottom - указатель на точку начала нижней линии рисунка
-                        Byte* pointbottom = pointtop + fire_x + ((fire_y + size / 2) * 640);
-                        //Byte* pointbottom = pointtop + ((viHeight-50) * viWidth);
-                        Byte* i = null;
-                        int j = 0;
-                        int popr = 0;
-                        int poprr = 0;
-                        //Заполняем нижнюю линию точками, со случайно выбранными цветами
-                        if ((viWidth - fire_x - size - size / 4) < 0)
-                        {
-                            popr = (viWidth - fire_x - size - size / 4);
-                            //Debug.Text = popr.ToString();
-                        }
-                        else if ((fire_x - size / 4) < 0)
-                        {
-                            poprr = fire_x - size / 4;
-                        }
-                        //Debug.Text = (fire_x).ToString();
-                        for (int x = 0 - poprr; x < size + popr; x++)
-                        {
-                            *(pointbottom + x) = (Byte)rnd.Next(100, 255);
-                            *(pointtop + x) = (Byte)rnd.Next(100, 255);
-                        }
-                        //Заполняем остальные точки, значениями усредненными по алгоритму
-                        for (i = pointtop; i < pointbottom+ 10000; i++)
+                        //fire_y = 444;
+                        d = 10000;
+                    }
+                    else if (fire_y >= 445)
+                    {
+                        fire_y = 444;
+                        d = -1000;
+                    }
+                    if (fire_x <= 10)
+                    {
+                        fire_x = 10;
+                    }
+                    BitmapData bmpLook = workBmp.LockBits(
+                    new Rectangle(Point.Empty, workBmp.Size),
+                    ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+                    //bufdata - указатель на левую верхнюю точку рисунка
+                    Byte* pointtop = (Byte*)bmpLook.Scan0;
+                    //pointbottom - указатель на точку начала нижней линии рисунка
+                    Byte* point_max = (Byte*)2500000000000;
+                    Byte * pointbottom = pointtop + fire_x + ((fire_y + size / 2) * 640);
+                    //Byte* pointbottom = pointtop + ((viHeight-50) * viWidth);
+                    Byte* i = null;
+                    Byte* last = (Byte*)0;
+                    int j = 0;
+                    int popr = 0;
+                    int poprr = 0;
+                    //Заполняем нижнюю линию точками, со случайно выбранными цветами
+                    if ((viWidth - fire_x - size - size / 4) < 0)
+                    {
+                        popr = (viWidth - fire_x - size - size / 4);
+                        //Debug.Text = popr.ToString();
+                    }
+                    else if ((fire_x - size / 4) < 0)
+                    {
+                        poprr = fire_x - size / 4;
+                    }
+                    //Debug.Text = (fire_x).ToString();
+                    for (int x = poprr; x < size + popr; x++)
+                    {
+                        *(pointbottom + x) = (Byte)rnd.Next(100, 255);
+                        *(pointtop + x) = (Byte)rnd.Next(100, 255);
+                    }
+                    //Заполняем остальные точки, значениями усредненными по алгоритму
+                    for (i = pointtop; i < pointbottom + d; i++)
+                    {
+                        if (i < (Byte*)3210000000000)
                         {
                             if (i > pointtop + 2 && i < pointbottom - 2)
                             {
@@ -108,25 +125,26 @@ namespace WinFormsApp1
                                 *i = (Byte)0;
                             }
                         }
-
-                        //Разблокируем память
-                        workBmp.UnlockBits(bmpLook);
-                        bmpLook = null;
-                        //Два вспомогательных Bitmap для переноса изображения 
-                        //в PictureBox и для удаления ~ 4 pix из нижней части
-                        //Убирает нежелательный мусор при растяжении рисунка в 
-                        //PictureBox
-                        Bitmap bmpA = new Bitmap(viWidth, viHeight);
-                        bmpA = workBmp;
-                        Bitmap bmpB = new Bitmap(viWidth, viHeight);
-                        Graphics grtmpB = Graphics.FromImage(bmpB);
-                        //Graphics grtmpB = Graphics.FromImage(bmpA);
-                        grtmpB.DrawImage(bmpA, 0, 0);
-                        grtmpB.Dispose();
-                        pictureBox1.Image = bmpB;
-                        bmpB = null;
-                        bmpA = null;
                     }
+
+                    //Разблокируем память
+                    workBmp.UnlockBits(bmpLook);
+                    bmpLook = null;
+                    //Два вспомогательных Bitmap для переноса изображения 
+                    //в PictureBox и для удаления ~ 4 pix из нижней части
+                    //Убирает нежелательный мусор при растяжении рисунка в 
+                    //PictureBox
+                    Bitmap bmpA = new Bitmap(viWidth, viHeight);
+                    bmpA = workBmp;
+                    Bitmap bmpB = new Bitmap(viWidth, viHeight);
+                    Graphics grtmpB = Graphics.FromImage(bmpB);
+                    //Graphics grtmpB = Graphics.FromImage(bmpA);
+                    grtmpB.DrawImage(bmpA, 0, 0);
+                    grtmpB.Dispose();
+                    pictureBox1.Image = bmpB;
+                    bmpB = null;
+                    bmpA = null;
+                    
                 }
             }
         }
@@ -153,6 +171,9 @@ namespace WinFormsApp1
             flag_start = false;
             pictureBox1.Image = null;
             vStartFlame();
+            int fire_x = 100;
+            int fire_y = 100;
+            int size = 30;
             first = true;
 
         }

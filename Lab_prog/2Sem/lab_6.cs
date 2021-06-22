@@ -38,8 +38,8 @@ namespace Lab_6
             ColorPalette pal = workBmp.Palette;
             for (int i = 0; i < 64; i++)
             {
-                pal.Entries[i] = Color.FromArgb(0, 0, 0); 
-                pal.Entries[i + 64] = Color.FromArgb(R1, G1, B1); 
+                pal.Entries[i] = Color.FromArgb(0, 0, 0);
+                pal.Entries[i + 64] = Color.FromArgb(R1, G1, B1);
                 pal.Entries[i + 128] = Color.FromArgb(R2, G2, B2);
                 pal.Entries[i + 192] = Color.FromArgb(255, 255, 255);
             }
@@ -74,9 +74,9 @@ namespace Lab_6
                     {
                         fire_x = size / 4;
                     }
-                    else if ( fire_x >= viWidth - size)
+                    else if (fire_x >= viWidth - size)
                     {
-                        fire_x = viWidth - size -2;
+                        fire_x = viWidth - size - 2;
                     }
                     BitmapData bmpLook = workBmp.LockBits(
                     new Rectangle(Point.Empty, workBmp.Size),
@@ -97,7 +97,7 @@ namespace Lab_6
                     {
                         poprr = fire_x - size / 4;
                     }
-                    for (int x = poprr; x < size ; x++)
+                    for (int x = poprr; x < size; x++)
                     {
                         *(pointbottom + x) = (Byte)rnd.Next(100, 255); //внутренний контур
                         *(pointtop + x) = (Byte)rnd.Next(0, 255);
@@ -196,30 +196,35 @@ namespace Lab_6
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (!f1 || !f2)
+            if (G.Text != "")
             {
-                parse_data(G.Text, "G");
-            }
-            else
-            {
-                if (G.Text != "")
+                if (!f1 || !f2)
                 {
-                    MessageBox.Show("У вас не выбранны параметры для типов пламени");
+                    parse_data(G.Text, "G");
                 }
-                G.Text = "";
+                else
+                {
+                    if (G.Text != "")
+                    {
+                        MessageBox.Show("У вас не выбранны параметры для типов пламени");
+                    }
+                    G.Text = "";
+                }
             }
         }
 
         public void parse_data(string text, string S)
         {
             bool res = int.TryParse(text, out int xx);
-            if (text != "") { 
-            if (res == false)
+            if (text != "")
             {
-                MessageBox.Show("Вы ввели не число");
-            }
-            else
-            {
+                if (res == false)
+                {
+                    MessageBox.Show("Вы ввели не число");
+                }
+                else
+                {
+                    
                     if (xx < 0)
                     {
                         MessageBox.Show("Вы ввели отрицательное число или 0");
@@ -273,33 +278,39 @@ namespace Lab_6
         }
         private void R_TextChanged(object sender, EventArgs e)
         {
-            if (!f1 || !f2)
+            if (R.Text != "")
             {
-                parse_data(R.Text, "R");
-            }
-            else
-            {
-                if (R.Text != "")
+                if (!f1 || !f2)
                 {
-                    MessageBox.Show("У вас не выбранны параметры для типов пламени");
+                    parse_data(R.Text, "R");
                 }
-                R.Text = "";
+                else
+                {
+                    if (R.Text != "")
+                    {
+                        MessageBox.Show("У вас не выбранны параметры для типов пламени");
+                    }
+                    R.Text = "";
+                }
             }
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            if (f1 == false || f2 == false)
+            if (B.Text != "")
             {
-                parse_data(B.Text, "B");
-            }
-            else
-            {
-                if (B.Text != "")
+                if (f1 == false || f2 == false)
                 {
-                    MessageBox.Show("У вас не выбранны параметры для типов пламени");
+                    parse_data(B.Text, "B");
                 }
-                B.Text = "";
+                else
+                {
+                    if (B.Text != "")
+                    {
+                        MessageBox.Show("У вас не выбранны параметры для типов пламени");
+                    }
+                    B.Text = "";
+                }
             }
         }
 
@@ -307,31 +318,35 @@ namespace Lab_6
         {
             if (f1)
             {
+                R.Text = "";
+                B.Text = "";
+                G.Text = "";
                 f1 = false;
-                R.Text = R1.ToString();
-                B.Text = B1.ToString();
-                G.Text = G1.ToString();
-                
+                if (f2)
+                {
+                    R.Text = R1.ToString();
+                    B.Text = B1.ToString();
+                    G.Text = G1.ToString();
+                }
             }
             else
             {
                 f1 = true;
-                checkBox1.Checked = false;
                 R.Text = "";
                 B.Text = "";
                 G.Text = "";
-                
+                checkBox1.Checked = false;
             }
             if (f1 == f2 && !f1)
             {
                 MessageBox.Show("У вас выбранны параметры сразу для двух типов пламени, выберите только одно");
-                checkBox1.Checked = false;
-                checkBox2.Checked = false;
-                f2 = true;
-                f1 = true;
                 R.Text = "";
                 B.Text = "";
                 G.Text = "";
+                checkBox2.Checked = false;
+                checkBox1.Checked = false;
+                f2 = true;
+                f1 = true;
             }
         }
 
@@ -366,31 +381,35 @@ namespace Lab_6
         {
             if (f2)
             {
+                R.Text = "";
+                B.Text = "";
+                G.Text = "";
                 f2 = false;
-                R.Text = R2.ToString();
-                B.Text = B2.ToString();
-                G.Text = G2.ToString();
+                if (f1)
+                {
+                    R.Text = R2.ToString();
+                    B.Text = B2.ToString();
+                    G.Text = G2.ToString();
+                }
             }
             else
             {
                 f2 = true;
-                checkBox2.Checked = false;
                 R.Text = "";
                 B.Text = "";
                 G.Text = "";
+                checkBox2.Checked = false;
             }
             if (f1 == f2 && !f1)
             {
-                
                 MessageBox.Show("У вас выбранны параметры сразу для двух типов пламени, выберите только одно");
-                checkBox1.Checked = false;
-                checkBox2.Checked = false;
-                f2 = true;
-                f1 = true;
                 R.Text = "";
                 B.Text = "";
                 G.Text = "";
-                
+                checkBox2.Checked = false;
+                checkBox1.Checked = false;
+                f2 = true;
+                f1 = true;
             }
         }
     }

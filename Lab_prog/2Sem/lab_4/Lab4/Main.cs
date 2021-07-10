@@ -42,7 +42,7 @@ namespace Lab4
             BusinessesDGV.Width = 440;
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT * FROM [Предприятия]";
+            myOleDbCommand.CommandText = "SELECT * FROM [Место]";
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
             int i = 0;
             BusinessesDGV.RowCount = 1;
@@ -58,7 +58,7 @@ namespace Lab4
             myOleDbDataReader.Close();
 
 
-            ProductsDGV.ColumnCount = 7;
+            ProductsDGV.ColumnCount = 6;
             for (int k = 0; k < ProductsDGV.ColumnCount; k++)
                 ProductsDGV.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             ProductsDGV.RowHeadersVisible = false;
@@ -75,9 +75,9 @@ namespace Lab4
             ProductsDGV.Columns[4].Width = 100;
             ProductsDGV.Columns[5].HeaderText = "Количество учеников";
             ProductsDGV.Columns[5].Width = 100;
-            ProductsDGV.Width = 660;
+            ProductsDGV.Width = 560;
 
-            myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
+            myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
             OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
             i = 0;
             ProductsDGV.RowCount = 1;
@@ -106,7 +106,7 @@ namespace Lab4
             TotalOtputDGV.Columns[1].Width = 345;
             TotalOtputDGV.RowCount = CountOfCompany;
 
-            myOleDbCommand.CommandText = "SELECT [Район] FROM [Предприятия]";
+            myOleDbCommand.CommandText = "SELECT [Район] FROM [Место]";
             OleDbDataReader myOleDbDataReader5 = myOleDbCommand.ExecuteReader();
             long[,] ArForOut = new long[CountOfCompany, 2];
             i = 0;
@@ -118,7 +118,7 @@ namespace Lab4
             }
             myOleDbDataReader5.Close();
 
-            myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
+            myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
             OleDbDataReader myOleDbDataReader2 = myOleDbCommand.ExecuteReader();
             TotalOtputDGV.RowCount = CountOfCompany;
 
@@ -128,7 +128,7 @@ namespace Lab4
                     if (ArForOut[h, 0] == Convert.ToInt32(myOleDbDataReader2["Код района"]))
                     {
                         ArForOut[h, 0] = Convert.ToInt32(myOleDbDataReader2["Код района"]);
-                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Телефон"]);
+                        //ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Телефон"]);
                         ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Год открытия"]);
                         ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Количество учителей"]);
                         ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Количество учеников"]);
@@ -166,7 +166,7 @@ namespace Lab4
             BusinessesDGV.Width = 440;
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT * FROM [Предприятия]";
+            myOleDbCommand.CommandText = "SELECT * FROM [Место]";
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
             int i = 0;
             BusinessesDGV.RowCount = 1;
@@ -200,7 +200,7 @@ namespace Lab4
             ProductsDGV.Columns[5].Width = 100;
             ProductsDGV.Width = 660;
 
-            myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
+            myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
             OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
             i = 0;
             ProductsDGV.RowCount = 1;
@@ -228,7 +228,7 @@ namespace Lab4
             TotalOtputDGV.Columns[1].HeaderText = "Стоимость";
             TotalOtputDGV.Columns[1].Width = 345;
 
-            myOleDbCommand.CommandText = "SELECT [Район] FROM [Предприятия]";
+            myOleDbCommand.CommandText = "SELECT [Район] FROM [Место]";
             OleDbDataReader myOleDbDataReader5 = myOleDbCommand.ExecuteReader();
             long[,] ArForOut = new long[CountOfCompany, 2];
             i = 0;
@@ -240,7 +240,7 @@ namespace Lab4
             }
             myOleDbDataReader5.Close();
 
-            myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
+            myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
             OleDbDataReader myOleDbDataReader2 = myOleDbCommand.ExecuteReader();
             TotalOtputDGV.RowCount = CountOfCompany;
 

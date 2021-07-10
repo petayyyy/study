@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -45,7 +45,7 @@ namespace Lab4
                 }
                 else
                 {
-                    if(min < 0)
+                    if (min < 0)
                     {
                         MessageBox.Show("Введено отрицательное число");
                         MinTextBox.Text = "";
@@ -82,7 +82,7 @@ namespace Lab4
 
         private void FoundButton_Click(object sender, EventArgs e)
         {
-            if(max < min)
+            if (max < min)
             {
                 MessageBox.Show("Максимальное не может быть меньше минимального");
                 FoundButton.Enabled = false;
@@ -96,37 +96,34 @@ namespace Lab4
                     dataGridView1.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
                 dataGridView1.RowHeadersVisible = false;
 
-                dataGridView1.Columns[0].HeaderText = "Код предприятия";
+                dataGridView1.Columns[0].HeaderText = "Код района";
                 dataGridView1.Columns[0].Width = 40;
-                dataGridView1.Columns[1].HeaderText = "Шифр изделия";
+                dataGridView1.Columns[1].HeaderText = "Номер школы";
                 dataGridView1.Columns[1].Width = 100;
-                dataGridView1.Columns[2].HeaderText = "Выпуск 1 квартала";
+                dataGridView1.Columns[2].HeaderText = "Телефон";
                 dataGridView1.Columns[2].Width = 100;
-                dataGridView1.Columns[3].HeaderText = "Выпуск 2 квартала";
+                dataGridView1.Columns[3].HeaderText = "Год открытия";
                 dataGridView1.Columns[3].Width = 100;
-                dataGridView1.Columns[4].HeaderText = "Выпуск 3 квартала";
+                dataGridView1.Columns[4].HeaderText = "Количество учителей";
                 dataGridView1.Columns[4].Width = 100;
-                dataGridView1.Columns[5].HeaderText = "Выпуск 4 квартала";
+                dataGridView1.Columns[5].HeaderText = "Количество учеников";
                 dataGridView1.Columns[5].Width = 100;
-                dataGridView1.Columns[6].HeaderText = "Средняя цена единицы за год";
-                dataGridView1.Columns[6].Width = 100;
                 dataGridView1.Width = 660;
 
                 OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-                myOleDbCommand.CommandText = "SELECT * FROM [Изделия] WHERE ([Выпуск 1 квартала] <= [Выпуск 2 квартала] AND [Выпуск 2 квартала] <= [Выпуск 3 квартала] AND [Выпуск 3 квартала] <= [Выпуск 4 квартала] AND ([Выпуск 4 квартала] * [Средняя цена единицы за год]) >=" + min.ToString() + " AND ([Выпуск 4 квартала] * [Средняя цена единицы за год]) <=" + max.ToString() + ")";
+                myOleDbCommand.CommandText = "SELECT * FROM [Изделия] WHERE ([Телефон] <= [Год открытия] AND [Год открытия] <= [Количество учителей] AND [Количество учителей] <= [Количество учеников] AND ([Количество учеников] * [Средняя цена единицы за год]) >=" + min.ToString() + " AND ([Количество учеников] * [Средняя цена единицы за год]) <=" + max.ToString() + ")";
                 OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
                 int i = 0;
                 dataGridView1.RowCount = 1;
                 while (myOleDbDataReader1.Read())
                 {
                     dataGridView1.RowCount += 1;
-                    dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader1["Код предприятия"];
-                    dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader1["Шифр изделия"].ToString();
-                    dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader1["Выпуск 1 квартала"];
-                    dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader1["Выпуск 2 квартала"];
-                    dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader1["Выпуск 3 квартала"];
-                    dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader1["Выпуск 4 квартала"];
-                    dataGridView1.Rows[i].Cells[6].Value = myOleDbDataReader1["Средняя цена единицы за год"];
+                    dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader1["Код района"];
+                    dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader1["Номер школы"].ToString();
+                    dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader1["Телефон"];
+                    dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader1["Год открытия"];
+                    dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader1["Количество учителей"];
+                    dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader1["Количество учеников"];
                     i++;
                 }
                 myOleDbDataReader1.Close();
@@ -136,3 +133,4 @@ namespace Lab4
         }
     }
 }
+

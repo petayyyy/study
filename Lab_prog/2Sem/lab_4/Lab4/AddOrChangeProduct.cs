@@ -29,7 +29,7 @@ namespace Lab4
             CompanyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT [Район] FROM [Предприятия]";
+            myOleDbCommand.CommandText = "SELECT [Район] FROM [Место]";
             OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
             while (myOleDbDataReader1.Read())
             {
@@ -56,7 +56,7 @@ namespace Lab4
             dataGridView1.Columns[5].Width = 100;
             dataGridView1.Width = 660;
 
-            myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
+            myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
             int i = 0;
             dataGridView1.RowCount = 1;
@@ -129,7 +129,7 @@ namespace Lab4
                     if (AddOrChangeButton.Text == "Добавить")
                     {
                         int er = 0;
-                        myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Изделия] WHERE [Номер школы] = '" + shifr + "'";
+                        myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Номер школы] = '" + shifr + "'";
                         OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
                         while (myOleDbDataReader1.Read())
                         {
@@ -140,7 +140,7 @@ namespace Lab4
 
                         if (er != 1)
                         {
-                            myOleDbCommand.CommandText = "INSERT INTO [Изделия] ([Код района], [Номер школы], [Телефон], [Год открытия], [Количество учителей], [Количество учеников]) VALUES (" + code + ", '" + shifr + "', " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ")";
+                            myOleDbCommand.CommandText = "INSERT INTO [Ведомость] ([Код района], [Номер школы], [Телефон], [Год открытия], [Количество учителей], [Количество учеников]) VALUES (" + code + ", '" + shifr + "', " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ")";
                             myOleDbCommand.ExecuteNonQuery();
                             CompanyComboBox.SelectedIndex = -1;
                             ShifrTextBox.Text = "";
@@ -150,7 +150,7 @@ namespace Lab4
                             Vip4textBox.Text = "";
                             CostTextBox.Text = "";
 
-                            myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
+                            myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
                             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
                             int i = 0;
                             dataGridView1.RowCount = 1;
@@ -172,7 +172,7 @@ namespace Lab4
                     if (AddOrChangeButton.Text == "Изменить")
                     {
                         int er = 0;
-                        myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Изделия] WHERE [Номер школы] = '" + shifr + "'";
+                        myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Номер школы] = '" + shifr + "'";
                         OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
                         while (myOleDbDataReader1.Read())
                         {
@@ -186,10 +186,10 @@ namespace Lab4
 
                         if (er != 1)
                         {
-                            myOleDbCommand.CommandText = "DELETE FROM [Изделия] WHERE [Номер школы] = '" + predshif + "'";
+                            myOleDbCommand.CommandText = "DELETE FROM [Ведомость] WHERE [Номер школы] = '" + predshif + "'";
                             myOleDbCommand.ExecuteNonQuery();
 
-                            myOleDbCommand.CommandText = "INSERT INTO [Изделия] ([Код района], [Номер школы], [Телефон], [Год открытия], [Количество учителей], [Количество учеников]) VALUES (" + code + ", '" + shifr + "', " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ")";
+                            myOleDbCommand.CommandText = "INSERT INTO [Ведомость] ([Код района], [Номер школы], [Телефон], [Год открытия], [Количество учителей], [Количество учеников]) VALUES (" + code + ", '" + shifr + "', " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ")";
                             myOleDbCommand.ExecuteNonQuery();
 
                             AddOrChangeButton.Text = "Добавить";
@@ -202,7 +202,7 @@ namespace Lab4
                             Vip4textBox.Text = "";
                             CostTextBox.Text = "";
 
-                            myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
+                            myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
                             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
                             int i = 0;
                             dataGridView1.RowCount = 1;
@@ -234,10 +234,10 @@ namespace Lab4
             {
                 OleDbCommand myOleDbCommand = myConnection.CreateCommand();
                 myConnection.Open();
-                myOleDbCommand.CommandText = "DELETE FROM [Изделия] WHERE [Номер школы] = '" + predshif + "'";
+                myOleDbCommand.CommandText = "DELETE FROM [Ведомость] WHERE [Номер школы] = '" + predshif + "'";
                 myOleDbCommand.ExecuteNonQuery();
 
-                myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
+                myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
                 OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
                 int i = 0;
                 dataGridView1.RowCount = 1;

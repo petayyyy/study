@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,11 +33,11 @@ namespace Lab4
                 BusinessesDGV.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             BusinessesDGV.RowHeadersVisible = false;
 
-            BusinessesDGV.Columns[0].HeaderText = "Код предприятия";
+            BusinessesDGV.Columns[0].HeaderText = "Район";
             BusinessesDGV.Columns[0].Width = 40;
-            BusinessesDGV.Columns[1].HeaderText = "Название";
+            BusinessesDGV.Columns[1].HeaderText = "Код района";
             BusinessesDGV.Columns[1].Width = 200;
-            BusinessesDGV.Columns[2].HeaderText = "Телефон";
+            BusinessesDGV.Columns[2].HeaderText = "Телефон отдела образования";
             BusinessesDGV.Columns[2].Width = 200;
             BusinessesDGV.Width = 440;
 
@@ -50,9 +50,9 @@ namespace Lab4
             {
                 CountOfCompany++;
                 BusinessesDGV.RowCount += 1;
-                BusinessesDGV.Rows[i].Cells[0].Value = myOleDbDataReader["Код предприятия"];
-                BusinessesDGV.Rows[i].Cells[1].Value = myOleDbDataReader["Название"];
-                BusinessesDGV.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон"];
+                BusinessesDGV.Rows[i].Cells[0].Value = myOleDbDataReader["Район"];
+                BusinessesDGV.Rows[i].Cells[1].Value = myOleDbDataReader["Код района"];
+                BusinessesDGV.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон отдела образования"];
                 i++;
             }
             myOleDbDataReader.Close();
@@ -63,20 +63,18 @@ namespace Lab4
                 ProductsDGV.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             ProductsDGV.RowHeadersVisible = false;
 
-            ProductsDGV.Columns[0].HeaderText = "Код предприятия";
+            ProductsDGV.Columns[0].HeaderText = "Код района";
             ProductsDGV.Columns[0].Width = 40;
-            ProductsDGV.Columns[1].HeaderText = "Шифр изделия";
+            ProductsDGV.Columns[1].HeaderText = "Номер школы";
             ProductsDGV.Columns[1].Width = 100;
-            ProductsDGV.Columns[2].HeaderText = "Выпуск 1 квартала";
+            ProductsDGV.Columns[2].HeaderText = "Телефон";
             ProductsDGV.Columns[2].Width = 100;
-            ProductsDGV.Columns[3].HeaderText = "Выпуск 2 квартала";
+            ProductsDGV.Columns[3].HeaderText = "Год открытия";
             ProductsDGV.Columns[3].Width = 100;
-            ProductsDGV.Columns[4].HeaderText = "Выпуск 3 квартала";
+            ProductsDGV.Columns[4].HeaderText = "Количество учителей";
             ProductsDGV.Columns[4].Width = 100;
-            ProductsDGV.Columns[5].HeaderText = "Выпуск 4 квартала";
+            ProductsDGV.Columns[5].HeaderText = "Количество учеников";
             ProductsDGV.Columns[5].Width = 100;
-            ProductsDGV.Columns[6].HeaderText = "Средняя цена единицы за год";
-            ProductsDGV.Columns[6].Width = 100;
             ProductsDGV.Width = 660;
 
             myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
@@ -86,13 +84,12 @@ namespace Lab4
             while (myOleDbDataReader1.Read())
             {
                 ProductsDGV.RowCount += 1;
-                ProductsDGV.Rows[i].Cells[0].Value = myOleDbDataReader1["Код предприятия"];
-                ProductsDGV.Rows[i].Cells[1].Value = myOleDbDataReader1["Шифр изделия"];
-                ProductsDGV.Rows[i].Cells[2].Value = myOleDbDataReader1["Выпуск 1 квартала"];
-                ProductsDGV.Rows[i].Cells[3].Value = myOleDbDataReader1["Выпуск 2 квартала"];
-                ProductsDGV.Rows[i].Cells[4].Value = myOleDbDataReader1["Выпуск 3 квартала"];
-                ProductsDGV.Rows[i].Cells[5].Value = myOleDbDataReader1["Выпуск 4 квартала"];
-                ProductsDGV.Rows[i].Cells[6].Value = myOleDbDataReader1["Средняя цена единицы за год"];
+                ProductsDGV.Rows[i].Cells[0].Value = myOleDbDataReader1["Код района"];
+                ProductsDGV.Rows[i].Cells[1].Value = myOleDbDataReader1["Номер школы"];
+                ProductsDGV.Rows[i].Cells[2].Value = myOleDbDataReader1["Телефон"];
+                ProductsDGV.Rows[i].Cells[3].Value = myOleDbDataReader1["Год открытия"];
+                ProductsDGV.Rows[i].Cells[4].Value = myOleDbDataReader1["Количество учителей"];
+                ProductsDGV.Rows[i].Cells[5].Value = myOleDbDataReader1["Количество учеников"];
                 i++;
             }
             myOleDbDataReader1.Close();
@@ -103,13 +100,13 @@ namespace Lab4
                 TotalOtputDGV.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             TotalOtputDGV.RowHeadersVisible = false;
 
-            TotalOtputDGV.Columns[0].HeaderText = "Код предприятия";
+            TotalOtputDGV.Columns[0].HeaderText = "Район";
             TotalOtputDGV.Columns[0].Width = 100;
             TotalOtputDGV.Columns[1].HeaderText = "Стоимость";
             TotalOtputDGV.Columns[1].Width = 345;
             TotalOtputDGV.RowCount = CountOfCompany;
 
-            myOleDbCommand.CommandText = "SELECT [Код предприятия] FROM [Предприятия]";
+            myOleDbCommand.CommandText = "SELECT [Район] FROM [Предприятия]";
             OleDbDataReader myOleDbDataReader5 = myOleDbCommand.ExecuteReader();
             long[,] ArForOut = new long[CountOfCompany, 2];
             i = 0;
@@ -128,14 +125,13 @@ namespace Lab4
             while (myOleDbDataReader2.Read())
             {
                 for (int h = 0; h <= CountOfCompany - 1; h++)
-                    if (ArForOut[h, 0] == Convert.ToInt32(myOleDbDataReader2["Код предприятия"]))
+                    if (ArForOut[h, 0] == Convert.ToInt32(myOleDbDataReader2["Код района"]))
                     {
-                        ArForOut[h, 0] = Convert.ToInt32(myOleDbDataReader2["Код предприятия"]);
-                        long sr = Convert.ToInt64(myOleDbDataReader2["Средняя цена единицы за год"]);
-                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Выпуск 1 квартала"]) * sr;
-                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Выпуск 2 квартала"]) * sr;
-                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Выпуск 3 квартала"]) * sr;
-                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Выпуск 4 квартала"]) * sr;
+                        ArForOut[h, 0] = Convert.ToInt32(myOleDbDataReader2["Код района"]);
+                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Телефон"]);
+                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Год открытия"]);
+                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Количество учителей"]);
+                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Количество учеников"]);
                         break;
                     }
             }
@@ -161,11 +157,11 @@ namespace Lab4
                 BusinessesDGV.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             BusinessesDGV.RowHeadersVisible = false;
 
-            BusinessesDGV.Columns[0].HeaderText = "Код предприятия";
+            BusinessesDGV.Columns[0].HeaderText = "Район";
             BusinessesDGV.Columns[0].Width = 40;
-            BusinessesDGV.Columns[1].HeaderText = "Название";
+            BusinessesDGV.Columns[1].HeaderText = "Код района";
             BusinessesDGV.Columns[1].Width = 200;
-            BusinessesDGV.Columns[2].HeaderText = "Телефон";
+            BusinessesDGV.Columns[2].HeaderText = "Телефон отдела образования";
             BusinessesDGV.Columns[2].Width = 200;
             BusinessesDGV.Width = 440;
 
@@ -178,9 +174,9 @@ namespace Lab4
             {
                 CountOfCompany++;
                 BusinessesDGV.RowCount += 1;
-                BusinessesDGV.Rows[i].Cells[0].Value = myOleDbDataReader["Код предприятия"];
-                BusinessesDGV.Rows[i].Cells[1].Value = myOleDbDataReader["Название"];
-                BusinessesDGV.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон"];
+                BusinessesDGV.Rows[i].Cells[0].Value = myOleDbDataReader["Район"];
+                BusinessesDGV.Rows[i].Cells[1].Value = myOleDbDataReader["Код района"];
+                BusinessesDGV.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон отдела образования"];
                 i++;
             }
             myOleDbDataReader.Close();
@@ -190,20 +186,18 @@ namespace Lab4
                 ProductsDGV.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             ProductsDGV.RowHeadersVisible = false;
 
-            ProductsDGV.Columns[0].HeaderText = "Код предприятия";
+            ProductsDGV.Columns[0].HeaderText = "Код района";
             ProductsDGV.Columns[0].Width = 40;
-            ProductsDGV.Columns[1].HeaderText = "Шифр изделия";
+            ProductsDGV.Columns[1].HeaderText = "Номер школы";
             ProductsDGV.Columns[1].Width = 100;
-            ProductsDGV.Columns[2].HeaderText = "Выпуск 1 квартала";
+            ProductsDGV.Columns[2].HeaderText = "Телефон";
             ProductsDGV.Columns[2].Width = 100;
-            ProductsDGV.Columns[3].HeaderText = "Выпуск 2 квартала";
+            ProductsDGV.Columns[3].HeaderText = "Год открытия";
             ProductsDGV.Columns[3].Width = 100;
-            ProductsDGV.Columns[4].HeaderText = "Выпуск 3 квартала";
+            ProductsDGV.Columns[4].HeaderText = "Количество учителей";
             ProductsDGV.Columns[4].Width = 100;
-            ProductsDGV.Columns[5].HeaderText = "Выпуск 4 квартала";
+            ProductsDGV.Columns[5].HeaderText = "Количество учеников";
             ProductsDGV.Columns[5].Width = 100;
-            ProductsDGV.Columns[6].HeaderText = "Средняя цена единицы за год";
-            ProductsDGV.Columns[6].Width = 100;
             ProductsDGV.Width = 660;
 
             myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
@@ -213,13 +207,12 @@ namespace Lab4
             while (myOleDbDataReader1.Read())
             {
                 ProductsDGV.RowCount += 1;
-                ProductsDGV.Rows[i].Cells[0].Value = myOleDbDataReader1["Код предприятия"];
-                ProductsDGV.Rows[i].Cells[1].Value = myOleDbDataReader1["Шифр изделия"];
-                ProductsDGV.Rows[i].Cells[2].Value = myOleDbDataReader1["Выпуск 1 квартала"];
-                ProductsDGV.Rows[i].Cells[3].Value = myOleDbDataReader1["Выпуск 2 квартала"];
-                ProductsDGV.Rows[i].Cells[4].Value = myOleDbDataReader1["Выпуск 3 квартала"];
-                ProductsDGV.Rows[i].Cells[5].Value = myOleDbDataReader1["Выпуск 4 квартала"];
-                ProductsDGV.Rows[i].Cells[6].Value = myOleDbDataReader1["Средняя цена единицы за год"];
+                ProductsDGV.Rows[i].Cells[0].Value = myOleDbDataReader1["Код района"];
+                ProductsDGV.Rows[i].Cells[1].Value = myOleDbDataReader1["Номер школы"];
+                ProductsDGV.Rows[i].Cells[2].Value = myOleDbDataReader1["Телефон"];
+                ProductsDGV.Rows[i].Cells[3].Value = myOleDbDataReader1["Год открытия"];
+                ProductsDGV.Rows[i].Cells[4].Value = myOleDbDataReader1["Количество учителей"];
+                ProductsDGV.Rows[i].Cells[5].Value = myOleDbDataReader1["Количество учеников"];
                 i++;
             }
             myOleDbDataReader1.Close();
@@ -230,12 +223,12 @@ namespace Lab4
                 TotalOtputDGV.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             TotalOtputDGV.RowHeadersVisible = false;
 
-            TotalOtputDGV.Columns[0].HeaderText = "Код предприятия";
+            TotalOtputDGV.Columns[0].HeaderText = "Район";
             TotalOtputDGV.Columns[0].Width = 100;
             TotalOtputDGV.Columns[1].HeaderText = "Стоимость";
             TotalOtputDGV.Columns[1].Width = 345;
 
-            myOleDbCommand.CommandText = "SELECT [Код предприятия] FROM [Предприятия]";
+            myOleDbCommand.CommandText = "SELECT [Район] FROM [Предприятия]";
             OleDbDataReader myOleDbDataReader5 = myOleDbCommand.ExecuteReader();
             long[,] ArForOut = new long[CountOfCompany, 2];
             i = 0;
@@ -254,14 +247,13 @@ namespace Lab4
             while (myOleDbDataReader2.Read())
             {
                 for (int h = 0; h <= CountOfCompany - 1; h++)
-                    if (ArForOut[h, 0] == Convert.ToInt32(myOleDbDataReader2["Код предприятия"]))
+                    if (ArForOut[h, 0] == Convert.ToInt32(myOleDbDataReader2["Код района"]))
                     {
-                        ArForOut[h, 0] = Convert.ToInt32(myOleDbDataReader2["Код предприятия"]);
-                        long sr = Convert.ToInt64(myOleDbDataReader2["Средняя цена единицы за год"]);
-                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Выпуск 1 квартала"]) * sr;
-                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Выпуск 2 квартала"]) * sr;
-                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Выпуск 3 квартала"]) * sr;
-                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Выпуск 4 квартала"]) * sr;
+                        ArForOut[h, 0] = Convert.ToInt32(myOleDbDataReader2["Код района"]);
+                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Телефон"]);
+                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Год открытия"]);
+                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Количество учителей"]);
+                        ArForOut[h, 1] += Convert.ToInt64(myOleDbDataReader2["Количество учеников"]);
                         break;
                     }
             }

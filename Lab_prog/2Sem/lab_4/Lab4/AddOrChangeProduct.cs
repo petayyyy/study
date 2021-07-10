@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -29,7 +29,7 @@ namespace Lab4
             CompanyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT [Код предприятия] FROM [Предприятия]";
+            myOleDbCommand.CommandText = "SELECT [Район] FROM [Предприятия]";
             OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
             while (myOleDbDataReader1.Read())
             {
@@ -42,20 +42,18 @@ namespace Lab4
                 dataGridView1.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             dataGridView1.RowHeadersVisible = false;
 
-            dataGridView1.Columns[0].HeaderText = "Код предприятия";
+            dataGridView1.Columns[0].HeaderText = "Код района";
             dataGridView1.Columns[0].Width = 40;
-            dataGridView1.Columns[1].HeaderText = "Шифр изделия";
+            dataGridView1.Columns[1].HeaderText = "Номер школы";
             dataGridView1.Columns[1].Width = 100;
-            dataGridView1.Columns[2].HeaderText = "Выпуск 1 квартала";
+            dataGridView1.Columns[2].HeaderText = "Телефон";
             dataGridView1.Columns[2].Width = 100;
-            dataGridView1.Columns[3].HeaderText = "Выпуск 2 квартала";
+            dataGridView1.Columns[3].HeaderText = "Год открытия";
             dataGridView1.Columns[3].Width = 100;
-            dataGridView1.Columns[4].HeaderText = "Выпуск 3 квартала";
+            dataGridView1.Columns[4].HeaderText = "Количество учителей";
             dataGridView1.Columns[4].Width = 100;
-            dataGridView1.Columns[5].HeaderText = "Выпуск 4 квартала";
+            dataGridView1.Columns[5].HeaderText = "Количество учеников";
             dataGridView1.Columns[5].Width = 100;
-            dataGridView1.Columns[6].HeaderText = "Средняя цена единицы за год";
-            dataGridView1.Columns[6].Width = 100;
             dataGridView1.Width = 660;
 
             myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
@@ -65,13 +63,12 @@ namespace Lab4
             while (myOleDbDataReader.Read())
             {
                 dataGridView1.RowCount += 1;
-                dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код предприятия"];
-                dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Шифр изделия"];
-                dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Выпуск 1 квартала"];
-                dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader["Выпуск 2 квартала"];
-                dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader["Выпуск 3 квартала"];
-                dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader["Выпуск 4 квартала"];
-                dataGridView1.Rows[i].Cells[6].Value = myOleDbDataReader["Средняя цена единицы за год"];
+                dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код района"];
+                dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Номер школы"];
+                dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон"];
+                dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader["Год открытия"];
+                dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader["Количество учителей"];
+                dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader["Количество учеников"];
                 i++;
             }
             myOleDbDataReader.Close();
@@ -132,7 +129,7 @@ namespace Lab4
                     if (AddOrChangeButton.Text == "Добавить")
                     {
                         int er = 0;
-                        myOleDbCommand.CommandText = "SELECT [Шифр изделия] FROM [Изделия] WHERE [Шифр изделия] = '" + shifr + "'";
+                        myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Изделия] WHERE [Номер школы] = '" + shifr + "'";
                         OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
                         while (myOleDbDataReader1.Read())
                         {
@@ -143,7 +140,7 @@ namespace Lab4
 
                         if (er != 1)
                         {
-                            myOleDbCommand.CommandText = "INSERT INTO [Изделия] ([Код предприятия], [Шифр изделия], [Выпуск 1 квартала], [Выпуск 2 квартала], [Выпуск 3 квартала], [Выпуск 4 квартала], [Средняя цена единицы за год]) VALUES (" + code + ", '" + shifr + "', " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ", " + cost + ")";
+                            myOleDbCommand.CommandText = "INSERT INTO [Изделия] ([Код района], [Номер школы], [Телефон], [Год открытия], [Количество учителей], [Количество учеников]) VALUES (" + code + ", '" + shifr + "', " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ")";
                             myOleDbCommand.ExecuteNonQuery();
                             CompanyComboBox.SelectedIndex = -1;
                             ShifrTextBox.Text = "";
@@ -160,13 +157,12 @@ namespace Lab4
                             while (myOleDbDataReader.Read())
                             {
                                 dataGridView1.RowCount += 1;
-                                dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код предприятия"];
-                                dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Шифр изделия"];
-                                dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Выпуск 1 квартала"];
-                                dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader["Выпуск 2 квартала"];
-                                dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader["Выпуск 3 квартала"];
-                                dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader["Выпуск 4 квартала"];
-                                dataGridView1.Rows[i].Cells[6].Value = myOleDbDataReader["Средняя цена единицы за год"];
+                                dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код района"];
+                                dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Номер школы"];
+                                dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон"];
+                                dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader["Год открытия"];
+                                dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader["Количество учителей"];
+                                dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader["Количество учеников"];
                                 i++;
                             }
                             myOleDbDataReader.Close();
@@ -176,7 +172,7 @@ namespace Lab4
                     if (AddOrChangeButton.Text == "Изменить")
                     {
                         int er = 0;
-                        myOleDbCommand.CommandText = "SELECT [Шифр изделия] FROM [Изделия] WHERE [Шифр изделия] = '" + shifr + "'";
+                        myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Изделия] WHERE [Номер школы] = '" + shifr + "'";
                         OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
                         while (myOleDbDataReader1.Read())
                         {
@@ -190,10 +186,10 @@ namespace Lab4
 
                         if (er != 1)
                         {
-                            myOleDbCommand.CommandText = "DELETE FROM [Изделия] WHERE [Шифр изделия] = '" + predshif + "'";
+                            myOleDbCommand.CommandText = "DELETE FROM [Изделия] WHERE [Номер школы] = '" + predshif + "'";
                             myOleDbCommand.ExecuteNonQuery();
 
-                            myOleDbCommand.CommandText = "INSERT INTO [Изделия] ([Код предприятия], [Шифр изделия], [Выпуск 1 квартала], [Выпуск 2 квартала], [Выпуск 3 квартала], [Выпуск 4 квартала], [Средняя цена единицы за год]) VALUES (" + code + ", '" + shifr + "', " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ", " + cost + ")";
+                            myOleDbCommand.CommandText = "INSERT INTO [Изделия] ([Код района], [Номер школы], [Телефон], [Год открытия], [Количество учителей], [Количество учеников]) VALUES (" + code + ", '" + shifr + "', " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ")";
                             myOleDbCommand.ExecuteNonQuery();
 
                             AddOrChangeButton.Text = "Добавить";
@@ -213,13 +209,12 @@ namespace Lab4
                             while (myOleDbDataReader.Read())
                             {
                                 dataGridView1.RowCount += 1;
-                                dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код предприятия"];
-                                dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Шифр изделия"];
-                                dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Выпуск 1 квартала"];
-                                dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader["Выпуск 2 квартала"];
-                                dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader["Выпуск 3 квартала"];
-                                dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader["Выпуск 4 квартала"];
-                                dataGridView1.Rows[i].Cells[6].Value = myOleDbDataReader["Средняя цена единицы за год"];
+                                dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код района"];
+                                dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Номер школы"];
+                                dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон"];
+                                dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader["Год открытия"];
+                                dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader["Количество учителей"];
+                                dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader["Количество учеников"];
                                 i++;
                             }
                             myOleDbDataReader.Close();
@@ -239,7 +234,7 @@ namespace Lab4
             {
                 OleDbCommand myOleDbCommand = myConnection.CreateCommand();
                 myConnection.Open();
-                myOleDbCommand.CommandText = "DELETE FROM [Изделия] WHERE [Шифр изделия] = '" + predshif + "'";
+                myOleDbCommand.CommandText = "DELETE FROM [Изделия] WHERE [Номер школы] = '" + predshif + "'";
                 myOleDbCommand.ExecuteNonQuery();
 
                 myOleDbCommand.CommandText = "SELECT * FROM [Изделия]";
@@ -249,13 +244,12 @@ namespace Lab4
                 while (myOleDbDataReader.Read())
                 {
                     dataGridView1.RowCount += 1;
-                    dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код предприятия"];
-                    dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Шифр изделия"];
-                    dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Выпуск 1 квартала"];
-                    dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader["Выпуск 2 квартала"];
-                    dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader["Выпуск 3 квартала"];
-                    dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader["Выпуск 4 квартала"];
-                    dataGridView1.Rows[i].Cells[6].Value = myOleDbDataReader["Средняя цена единицы за год"];
+                    dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код района"];
+                    dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Номер школы"];
+                    dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон"];
+                    dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader["Год открытия"];
+                    dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader["Количество учителей"];
+                    dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader["Количество учеников"];
                     i++;
                 }
                 myOleDbDataReader.Close();

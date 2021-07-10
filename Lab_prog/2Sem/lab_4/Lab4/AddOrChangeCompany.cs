@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,11 +33,11 @@ namespace Lab4
                 dataGridView1.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             dataGridView1.RowHeadersVisible = false;
 
-            dataGridView1.Columns[0].HeaderText = "Код предприятия";
+            dataGridView1.Columns[0].HeaderText = "Район";
             dataGridView1.Columns[0].Width = 40;
-            dataGridView1.Columns[1].HeaderText = "Название";
+            dataGridView1.Columns[1].HeaderText = "Код района";
             dataGridView1.Columns[1].Width = 200;
-            dataGridView1.Columns[2].HeaderText = "Телефон";
+            dataGridView1.Columns[2].HeaderText = "Телефон отдела образования";
             dataGridView1.Columns[2].Width = 200;
             dataGridView1.Width = 440;
 
@@ -50,9 +50,9 @@ namespace Lab4
             {
                 CountOfCompany++;
                 dataGridView1.RowCount += 1;
-                dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код предприятия"];
-                dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Название"];
-                dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон"];
+                dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Район"];
+                dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Код района"];
+                dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон отдела образования"];
                 i++;
             }
             myOleDbDataReader.Close();
@@ -80,8 +80,8 @@ namespace Lab4
 
         private void AddOrChangeButton_Click(object sender, EventArgs e)
         {
-            if(PhoneTextBox.Text.Length != 15)
-                MessageBox.Show("Вы не до конца ввели номер телефона");
+            if (PhoneTextBox.Text.Length != 15)
+                MessageBox.Show("Вы не до конца ввели номер Телефон отдела образованияа");
             else
             if (CodeTextBox.Text.Trim() == "" || NameTextBox.Text.Trim() == "" || PhoneTextBox.Text.Trim() == "")
             {
@@ -100,7 +100,7 @@ namespace Lab4
                 if (AddOrChangeButton.Text == "Добавить")
                 {
                     int er = 0;
-                    myOleDbCommand.CommandText = "SELECT [Код предприятия] FROM [Предприятия] WHERE [Код предприятия] = " + code;
+                    myOleDbCommand.CommandText = "SELECT [Район] FROM [Предприятия] WHERE [Район] = " + code;
                     OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
                     while (myOleDbDataReader1.Read())
                     {
@@ -109,7 +109,7 @@ namespace Lab4
                     }
                     myOleDbDataReader1.Close();
 
-                    myOleDbCommand.CommandText = "SELECT [Название] FROM [Предприятия] WHERE [Название] = '" + name + "'";
+                    myOleDbCommand.CommandText = "SELECT [Код района] FROM [Предприятия] WHERE [Код района] = '" + name + "'";
                     OleDbDataReader myOleDbDataReader2 = myOleDbCommand.ExecuteReader();
                     while (myOleDbDataReader2.Read())
                     {
@@ -120,7 +120,7 @@ namespace Lab4
 
                     if (er != 1)
                     {
-                        myOleDbCommand.CommandText = "INSERT INTO [Предприятия] ([Код предприятия], [Название], [Телефон]) VALUES (" + code + ", '" + name + "', '" + phone + "')";
+                        myOleDbCommand.CommandText = "INSERT INTO [Предприятия] ([Район], [Код района], [Телефон отдела образования]) VALUES (" + code + ", '" + name + "', '" + phone + "')";
                         myOleDbCommand.ExecuteNonQuery();
 
                         CodeTextBox.Text = "";
@@ -134,19 +134,19 @@ namespace Lab4
                         while (myOleDbDataReader.Read())
                         {
                             dataGridView1.RowCount += 1;
-                            dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код предприятия"];
-                            dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Название"];
-                            dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон"];
+                            dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Район"];
+                            dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Код района"];
+                            dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон отдела образования"];
                             i++;
                         }
                         myOleDbDataReader.Close();
                     }
                 }
-                
-                if(AddOrChangeButton.Text == "Изменить")
+
+                if (AddOrChangeButton.Text == "Изменить")
                 {
                     int er = 0;
-                    myOleDbCommand.CommandText = "SELECT [Код предприятия] FROM [Предприятия] WHERE [Код предприятия] = " + code;
+                    myOleDbCommand.CommandText = "SELECT [Район] FROM [Предприятия] WHERE [Район] = " + code;
                     OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
                     while (myOleDbDataReader1.Read())
                     {
@@ -158,7 +158,7 @@ namespace Lab4
                     }
                     myOleDbDataReader1.Close();
 
-                    myOleDbCommand.CommandText = "SELECT [Название] FROM [Предприятия] WHERE [Название] = '" + name + "'";
+                    myOleDbCommand.CommandText = "SELECT [Код района] FROM [Предприятия] WHERE [Код района] = '" + name + "'";
                     OleDbDataReader myOleDbDataReader2 = myOleDbCommand.ExecuteReader();
                     while (myOleDbDataReader2.Read())
                     {
@@ -172,10 +172,10 @@ namespace Lab4
 
                     if (er != 1)
                     {
-                        myOleDbCommand.CommandText = "DELETE FROM [Предприятия] WHERE [Код предприятия] = " + code;
+                        myOleDbCommand.CommandText = "DELETE FROM [Предприятия] WHERE [Район] = " + code;
                         myOleDbCommand.ExecuteNonQuery();
 
-                        myOleDbCommand.CommandText = "INSERT INTO [Предприятия] ([Код предприятия], [Название], [Телефон]) VALUES (" + code + ", '" + name + "', '" + phone + "')";
+                        myOleDbCommand.CommandText = "INSERT INTO [Предприятия] ([Район], [Код района], [Телефон отдела образования]) VALUES (" + code + ", '" + name + "', '" + phone + "')";
                         myOleDbCommand.ExecuteNonQuery();
 
                         AddOrChangeButton.Text = "Добавить";
@@ -191,9 +191,9 @@ namespace Lab4
                         while (myOleDbDataReader.Read())
                         {
                             dataGridView1.RowCount += 1;
-                            dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код предприятия"];
-                            dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Название"];
-                            dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон"];
+                            dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Район"];
+                            dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Код района"];
+                            dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон отдела образования"];
                             i++;
                         }
                         myOleDbDataReader.Close();
@@ -233,9 +233,9 @@ namespace Lab4
             {
                 OleDbCommand myOleDbCommand = myConnection.CreateCommand();
                 myConnection.Open();
-                myOleDbCommand.CommandText = "DELETE FROM [Предприятия] WHERE [Код предприятия] = " + whatcompany.ToString();
+                myOleDbCommand.CommandText = "DELETE FROM [Предприятия] WHERE [Район] = " + whatcompany.ToString();
                 myOleDbCommand.ExecuteNonQuery();
-                myOleDbCommand.CommandText = "DELETE FROM [Изделия] WHERE [Код предприятия] = " + whatcompany.ToString();
+                myOleDbCommand.CommandText = "DELETE FROM [Изделия] WHERE [Код района] = " + whatcompany.ToString();
                 myOleDbCommand.ExecuteNonQuery();
 
                 myOleDbCommand.CommandText = "SELECT * FROM [Предприятия]";
@@ -245,9 +245,9 @@ namespace Lab4
                 while (myOleDbDataReader.Read())
                 {
                     dataGridView1.RowCount += 1;
-                    dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Код предприятия"];
-                    dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Название"];
-                    dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон"];
+                    dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader["Район"];
+                    dataGridView1.Rows[i].Cells[1].Value = myOleDbDataReader["Код района"];
+                    dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader["Телефон отдела образования"];
                     i++;
                 }
                 myOleDbDataReader.Close();

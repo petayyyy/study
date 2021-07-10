@@ -30,7 +30,7 @@ namespace Lab4
             myConnection.Open();
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT [Район] FROM [Предприятия] WHERE [Код района] = '" + com + "'";
+            myOleDbCommand.CommandText = "SELECT [Район] FROM [Место] WHERE [Код района] = '" + com + "'";
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
             while (myOleDbDataReader.Read())
             {
@@ -47,7 +47,7 @@ namespace Lab4
             dataGridView1.Columns[0].Width = 300;
             dataGridView1.Width = 400;
 
-            myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Изделия] WHERE [Район] = " + idcom.ToString();
+            myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Код района] = " + idcom.ToString();
             OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
             dataGridView1.RowCount = 1;
             int i = 0;
@@ -70,7 +70,7 @@ namespace Lab4
             CompanyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT * FROM [Предприятия] WHERE [Код района]";
+            myOleDbCommand.CommandText = "SELECT * FROM [Место] WHERE [Код района]";
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
             while (myOleDbDataReader.Read())
             {
@@ -92,7 +92,7 @@ namespace Lab4
                     int[] mys = new int[4];
 
                     OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-                    myOleDbCommand.CommandText = "SELECT * FROM [Изделия] WHERE [Номер школы] = '" + dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString() + "'";
+                    myOleDbCommand.CommandText = "SELECT * FROM [Ведомость] WHERE [Номер школы] = '" + dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString() + "'";
                     OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
                     while (myOleDbDataReader.Read())
                     {

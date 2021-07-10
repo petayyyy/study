@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -30,11 +30,11 @@ namespace Lab4
             myConnection.Open();
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT [Код предприятия] FROM [Предприятия] WHERE [Название] = '" + com + "'";
+            myOleDbCommand.CommandText = "SELECT [Район] FROM [Предприятия] WHERE [Код района] = '" + com + "'";
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
             while (myOleDbDataReader.Read())
             {
-               idcom = Convert.ToInt32(myOleDbDataReader[0]);
+                idcom = Convert.ToInt32(myOleDbDataReader[0]);
             }
             myOleDbDataReader.Close();
 
@@ -43,11 +43,11 @@ namespace Lab4
                 dataGridView1.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             dataGridView1.RowHeadersVisible = false;
 
-            dataGridView1.Columns[0].HeaderText = "Шифр изделия";
+            dataGridView1.Columns[0].HeaderText = "Номер школы";
             dataGridView1.Columns[0].Width = 300;
             dataGridView1.Width = 400;
 
-            myOleDbCommand.CommandText = "SELECT [Шифр изделия] FROM [Изделия] WHERE [Код предприятия] = " + idcom.ToString();
+            myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Изделия] WHERE [Район] = " + idcom.ToString();
             OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
             dataGridView1.RowCount = 1;
             int i = 0;
@@ -70,7 +70,7 @@ namespace Lab4
             CompanyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT * FROM [Предприятия] WHERE [Название]";
+            myOleDbCommand.CommandText = "SELECT * FROM [Предприятия] WHERE [Код района]";
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
             while (myOleDbDataReader.Read())
             {
@@ -119,7 +119,7 @@ namespace Lab4
 
                 OleDbCommand myOleDbCommand = myConnection.CreateCommand();
 
-                myOleDbCommand.CommandText = "SELECT [Шифр изделия] FROM [Изделия] WHERE [Шифр изделия] = '" + newname + "'";
+                myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Изделия] WHERE [Номер школы] = '" + newname + "'";
                 OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
                 while (myOleDbDataReader1.Read())
                 {
@@ -130,10 +130,10 @@ namespace Lab4
 
                 if (er != 1)
                 {
-                    myOleDbCommand.CommandText = "UPDATE [Изделия] SET [Шифр изделия] = '" + newname + "' WHERE [Шифр изделия] = '" + pred + "'";
+                    myOleDbCommand.CommandText = "UPDATE [Изделия] SET [Номер школы] = '" + newname + "' WHERE [Номер школы] = '" + pred + "'";
                     myOleDbCommand.ExecuteNonQuery();
 
-                    myOleDbCommand.CommandText = "SELECT [Шифр изделия] FROM [Изделия] WHERE [Код предприятия] = " + idcom.ToString();
+                    myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Изделия] WHERE [Район] = " + idcom.ToString();
                     OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
                     dataGridView1.RowCount = 1;
                     int i = 0;
@@ -150,3 +150,4 @@ namespace Lab4
         }
     }
 }
+

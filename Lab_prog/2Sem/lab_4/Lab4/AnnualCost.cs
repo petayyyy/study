@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,50 +20,70 @@ namespace Lab4
             InitializeComponent();
 
             myConnection = new OleDbConnection(connectString);
-        }
-
-        private void CompanyComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string com = CompanyComboBox.SelectedItem.ToString();
-            int idcom = -1;
 
             myConnection.Open();
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT [Район] FROM [Место] WHERE [Код района] = '" + com + "'";
+            myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость]";
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
+            int i = 0;
             while (myOleDbDataReader.Read())
             {
-                idcom = Convert.ToInt32(myOleDbDataReader[0]);
+                string g = myOleDbDataReader[0].ToString();
+                char[] d = g.ToCharArray();
+                if (d[0] == '7')
+                {
+                    i++; }
             }
             myOleDbDataReader.Close();
 
-            dataGridView1.ColumnCount = 1;
+            dataGridView1.ColumnCount = 6;
             for (int k = 0; k < dataGridView1.ColumnCount; k++)
                 dataGridView1.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             dataGridView1.RowHeadersVisible = false;
 
-            dataGridView1.Columns[0].HeaderText = "Номер школы";
-            dataGridView1.Columns[0].Width = 300;
-            dataGridView1.Width = 400;
+            dataGridView1.Columns[0].HeaderText = "Код района";
+            dataGridView1.Columns[0].Width = 40;
+            dataGridView1.Columns[1].HeaderText = "Номер школы";
+            dataGridView1.Columns[1].Width = 100;
+            dataGridView1.Columns[2].HeaderText = "Телефон";
+            dataGridView1.Columns[2].Width = 100;
+            dataGridView1.Columns[3].HeaderText = "Год открытия";
+            dataGridView1.Columns[3].Width = 100;
+            dataGridView1.Columns[4].HeaderText = "Количество учителей";
+            dataGridView1.Columns[4].Width = 100;
+            dataGridView1.Columns[5].HeaderText = "Количество учеников";
+            dataGridView1.Columns[5].Width = 100;
+            dataGridView1.Width = 540;
 
-            myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Код района] = " + idcom.ToString();
+            myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
             OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
-            dataGridView1.RowCount = 1;
-            int i = 0;
+            i = 0;
+            dataGridView1.RowCount = 0;
             while (myOleDbDataReader1.Read())
             {
-                dataGridView1.RowCount += 1;
-                dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader1[0];
-                i++;
+                string g = myOleDbDataReader1["Номер школы"].ToString();
+                char[] d = g.ToCharArray();
+                if (d[0] == '7')
+                {
+                    dataGridView1.RowCount += 1;
+                    dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader1["Код района"];
+                    dataGridView1.Rows[i].Cells[1].Value = g;
+                    dataGridView1.Rows[i].Cells[2].Value = myOleDbDataReader1["Телефон"];
+                    dataGridView1.Rows[i].Cells[3].Value = myOleDbDataReader1["Год открытия"];
+                    dataGridView1.Rows[i].Cells[4].Value = myOleDbDataReader1["Количество учителей"];
+                    dataGridView1.Rows[i].Cells[5].Value = myOleDbDataReader1["Количество учеников"];
+                    i++;
+                }
+                
             }
             myOleDbDataReader1.Close();
-
             myConnection.Close();
         }
 
         private void AnnualCost_Load(object sender, EventArgs e)
         {
+            /*
             myConnection.Open();
 
             CompanyComboBox.Items.Clear();
@@ -79,6 +99,7 @@ namespace Lab4
             myOleDbDataReader.Close();
 
             myConnection.Close();
+            */
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -105,7 +126,6 @@ namespace Lab4
 
                     myConnection.Close();
 
-                    AnnualCostTextBox.Text = ((mys[0] + mys[1] + mys[2] + mys[3]) * mys[4]).ToString();
                 }
             }
         }

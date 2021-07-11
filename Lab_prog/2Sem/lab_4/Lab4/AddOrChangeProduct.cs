@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,24 +20,12 @@ namespace Lab4
             InitializeComponent();
             myConnection = new OleDbConnection(connectString);
         }
-
         private void AddOrChangeProduct_Load(object sender, EventArgs e)
         {
             myConnection.Open();
-
-            CompanyComboBox.Items.Clear();
-            CompanyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT [Район] FROM [Место]";
-            OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
-            while (myOleDbDataReader1.Read())
-            {
-                CompanyComboBox.Items.Add(myOleDbDataReader1[0]);
-            }
-            myOleDbDataReader1.Close();
 
-            dataGridView1.ColumnCount = 7;
+            dataGridView1.ColumnCount = 6;
             for (int k = 0; k < dataGridView1.ColumnCount; k++)
                 dataGridView1.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
             dataGridView1.RowHeadersVisible = false;
@@ -54,7 +42,7 @@ namespace Lab4
             dataGridView1.Columns[4].Width = 100;
             dataGridView1.Columns[5].HeaderText = "Количество учеников";
             dataGridView1.Columns[5].Width = 100;
-            dataGridView1.Width = 660;
+            dataGridView1.Width = 560;
 
             myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
@@ -82,22 +70,17 @@ namespace Lab4
             {
                 if (dataGridView1.RowCount != 1 && e.RowIndex != dataGridView1.RowCount - 1)
                 {
-                    for (int i = 0; i < CompanyComboBox.Items.Count; i++)
-                    {
-                        if (CompanyComboBox.Items[i].ToString() == dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString())
-                        {
-                            CompanyComboBox.SelectedIndex = i;
-                        }
-                    }
                     predshif = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    textBox1.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
                     ShifrTextBox.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
                     Vip1textBox.Text = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
                     Vip2textBox.Text = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
                     Vip3textBox.Text = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
                     Vip4textBox.Text = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
-                    CostTextBox.Text = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString();
                     AddOrChangeButton.Text = "Изменить";
                     DeleteButton.Enabled = true;
+                    predshif = ShifrTextBox.Text;
+
                 }
             }
         }
@@ -105,31 +88,25 @@ namespace Lab4
         private void AddOrChangeButton_Click(object sender, EventArgs e)
         {
             string shifr = ShifrTextBox.Text;
+            string num = textBox1.Text;
             string v1 = Vip1textBox.Text;
             string v2 = Vip2textBox.Text;
             string v3 = Vip3textBox.Text;
             string v4 = Vip4textBox.Text;
-            string cost = CostTextBox.Text;
 
-            if (shifr.Trim() == "" || v1.Trim() == "" || v2.Trim() == "" || v3.Trim() == "" || v4.Trim() == "" || cost.Trim() == "")
+            if (shifr.Trim() == "" || v1.Trim() == "" || v2.Trim() == "" || v3.Trim() == "" || v4.Trim() == "")
             {
                 MessageBox.Show("Одно или несколько полей пустые");
             }
             else
             {
-                if (CompanyComboBox.SelectedItem == null)
-                    MessageBox.Show("Вы не выбрали предприятие");
-                else
-                {
-                    string code = CompanyComboBox.SelectedItem.ToString();
-                    myConnection.Open();
+                myConnection.Open();
 
-                    OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-
-                    if (AddOrChangeButton.Text == "Добавить")
+                OleDbCommand myOleDbCommand = myConnection.CreateCommand();
+                if (AddOrChangeButton.Text == "Добавить")
                     {
                         int er = 0;
-                        myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Номер школы] = '" + shifr + "'";
+                        myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Номер школы] = "+ shifr ;
                         OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
                         while (myOleDbDataReader1.Read())
                         {
@@ -140,15 +117,15 @@ namespace Lab4
 
                         if (er != 1)
                         {
-                            myOleDbCommand.CommandText = "INSERT INTO [Ведомость] ([Код района], [Номер школы], [Телефон], [Год открытия], [Количество учителей], [Количество учеников]) VALUES (" + code + ", '" + shifr + "', " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ")";
+                            myOleDbCommand.CommandText = "INSERT INTO [Ведомость] ([Код района], [Номер школы], [Телефон], [Год открытия], [Количество учителей], [Количество учеников]) VALUES (" + num + ", " + shifr + ", " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ")";
                             myOleDbCommand.ExecuteNonQuery();
-                            CompanyComboBox.SelectedIndex = -1;
+                            
                             ShifrTextBox.Text = "";
+                            textBox1.Text = "";
                             Vip1textBox.Text = "";
                             Vip2textBox.Text = "";
                             Vip3textBox.Text = "";
                             Vip4textBox.Text = "";
-                            CostTextBox.Text = "";
 
                             myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
                             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
@@ -172,13 +149,13 @@ namespace Lab4
                     if (AddOrChangeButton.Text == "Изменить")
                     {
                         int er = 0;
-                        myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Номер школы] = '" + shifr + "'";
+                        myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Номер школы] = " + shifr;
                         OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
                         while (myOleDbDataReader1.Read())
                         {
                             if (myOleDbDataReader1[0].ToString() != predshif)
                             {
-                                MessageBox.Show("Шифр '" + myOleDbDataReader1[0].ToString() + "' уже существует");
+                                MessageBox.Show("Школа '" + myOleDbDataReader1[0].ToString() + "' уже существует");
                                 er = 1;
                             }
                         }
@@ -186,21 +163,20 @@ namespace Lab4
 
                         if (er != 1)
                         {
-                            myOleDbCommand.CommandText = "DELETE FROM [Ведомость] WHERE [Номер школы] = '" + predshif + "'";
+                            myOleDbCommand.CommandText = "DELETE FROM [Ведомость] WHERE [Номер школы] = "+predshif;
                             myOleDbCommand.ExecuteNonQuery();
 
-                            myOleDbCommand.CommandText = "INSERT INTO [Ведомость] ([Код района], [Номер школы], [Телефон], [Год открытия], [Количество учителей], [Количество учеников]) VALUES (" + code + ", '" + shifr + "', " + v1 + ", " + v2 + ", " + v3 + ", " + v4 + ")";
+                            myOleDbCommand.CommandText = "INSERT INTO [Ведомость] ([Код района], [Номер школы], [Телефон], [Год открытия], [Количество учителей], [Количество учеников]) VALUES (" + num + ", " + shifr + ", '" + v1 + "', " + v2 + ", " + v3 + ", " + v4 + ")";
                             myOleDbCommand.ExecuteNonQuery();
 
                             AddOrChangeButton.Text = "Добавить";
 
-                            CompanyComboBox.SelectedIndex = -1;
                             ShifrTextBox.Text = "";
                             Vip1textBox.Text = "";
                             Vip2textBox.Text = "";
+                            textBox1.Text = "";
                             Vip3textBox.Text = "";
                             Vip4textBox.Text = "";
-                            CostTextBox.Text = "";
 
                             myOleDbCommand.CommandText = "SELECT * FROM [Ведомость]";
                             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
@@ -218,7 +194,6 @@ namespace Lab4
                                 i++;
                             }
                             myOleDbDataReader.Close();
-                        }
                     }
                     myConnection.Close();
                 }
@@ -228,7 +203,7 @@ namespace Lab4
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            DialogResult ret = MessageBox.Show("Вы уверены, что хотите удалить изделие '" + predshif + "' ?", "Внимание!", MessageBoxButtons.YesNo);
+            DialogResult ret = MessageBox.Show("Вы уверены, что хотите удалить данные школы номер '" + predshif + "' ?", "Внимание!", MessageBoxButtons.YesNo);
 
             if (ret == DialogResult.Yes)
             {
@@ -257,35 +232,18 @@ namespace Lab4
             }
 
             AddOrChangeButton.Text = "Добавить";
-            CompanyComboBox.SelectedIndex = -1;
             ShifrTextBox.Text = "";
             Vip1textBox.Text = "";
             Vip2textBox.Text = "";
             Vip3textBox.Text = "";
+            textBox1.Text = "";
             Vip4textBox.Text = "";
-            CostTextBox.Text = "";
             DeleteButton.Enabled = false;
         }
 
         private void Vip1textBox_TextChanged(object sender, EventArgs e)
         {
-            if (Vip1textBox.Text != "")
-            {
-                bool res = int.TryParse(Vip1textBox.Text, out int x);
-                if (res != true)
-                {
-                    MessageBox.Show("Введено не число или не целое");
-                    Vip1textBox.Text = Vip1textBox.Text.Substring(0, Vip1textBox.Text.Length - 1);
-                }
-                else
-                {
-                    if (x < 0)
-                    {
-                        Vip1textBox.Text = "";
-                        MessageBox.Show("Введено отрицательное число");
-                    }
-                }
-            }
+           
         }
 
         private void Vip2textBox_TextChanged(object sender, EventArgs e)
@@ -351,25 +309,5 @@ namespace Lab4
             }
         }
 
-        private void CostTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (CostTextBox.Text != "")
-            {
-                bool res = int.TryParse(CostTextBox.Text, out int x);
-                if (res != true)
-                {
-                    MessageBox.Show("Введено не число или не целое");
-                    CostTextBox.Text = CostTextBox.Text.Substring(0, CostTextBox.Text.Length - 1);
-                }
-                else
-                {
-                    if (x < 0)
-                    {
-                        CostTextBox.Text = "";
-                        MessageBox.Show("Введено отрицательное число");
-                    }
-                }
-            }
-        }
     }
 }

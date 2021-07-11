@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,19 +18,21 @@ namespace Lab4
         public ChangeCipher()
         {
             InitializeComponent();
-
             myConnection = new OleDbConnection(connectString);
+            NewNameTextBox.Enabled = false;
+            ChangeButton.Enabled = false;
         }
         private int idcom = -1;
         private void CompanyComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             string com = CompanyComboBox.SelectedItem.ToString();
             idcom = -1;
-
             myConnection.Open();
+            NewNameTextBox.Enabled = true;
+            ChangeButton.Enabled = true;
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT [Район] FROM [Место] WHERE [Код района] = '" + com + "'";
+            myOleDbCommand.CommandText = "SELECT [Количество учителей] FROM [Ведомость] WHERE [Номер школы] = " + com;
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
             while (myOleDbDataReader.Read())
             {
@@ -38,27 +40,7 @@ namespace Lab4
             }
             myOleDbDataReader.Close();
 
-            dataGridView1.ColumnCount = 1;
-            for (int k = 0; k < dataGridView1.ColumnCount; k++)
-                dataGridView1.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridView1.RowHeadersVisible = false;
-
-            dataGridView1.Columns[0].HeaderText = "Номер школы";
-            dataGridView1.Columns[0].Width = 300;
-            dataGridView1.Width = 400;
-
-            myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Код района] = " + idcom.ToString();
-            OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
-            dataGridView1.RowCount = 1;
-            int i = 0;
-            while (myOleDbDataReader1.Read())
-            {
-                dataGridView1.RowCount += 1;
-                dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader1[0];
-                i++;
-            }
-            myOleDbDataReader1.Close();
-
+            NewNameTextBox.Text = idcom.ToString();
             myConnection.Close();
         }
 
@@ -70,7 +52,7 @@ namespace Lab4
             CompanyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
             OleDbCommand myOleDbCommand = myConnection.CreateCommand();
-            myOleDbCommand.CommandText = "SELECT * FROM [Место] WHERE [Код района]";
+            myOleDbCommand.CommandText = "SELECT * FROM [Ведомость] WHERE [Номер школы]";
             OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
             while (myOleDbDataReader.Read())
             {
@@ -80,74 +62,39 @@ namespace Lab4
 
             myConnection.Close();
         }
-        private string pred = "";
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                if (dataGridView1.RowCount != 1 && e.RowIndex != dataGridView1.RowCount - 1)
-                {
-                    NewNameTextBox.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString().Trim();
-                    pred = NewNameTextBox.Text;
-                    NewNameTextBox.Enabled = true;
-                    ChangeButton.Enabled = true;
-                    label3.Visible = true;
-                }
-            }
-        }
 
         private void ChangeButton_Click(object sender, EventArgs e)
         {
             string newname = NewNameTextBox.Text;
 
-            if (pred == newname || newname.Trim() == "")
+            if (NewNameTextBox.Text == "")
             {
-                if (pred == newname)
-                    MessageBox.Show("Вы не ввели новый шифр");
-                else
-                    MessageBox.Show("Вы ничего не ввели или одни пробелы");
+                MessageBox.Show("Вы не ввели новое количество учителей");
             }
             else
             {
-                int er = 0;
-                NewNameTextBox.Enabled = false;
-                NewNameTextBox.Text = "";
-                ChangeButton.Enabled = false;
-                label3.Visible = false;
-
                 myConnection.Open();
 
                 OleDbCommand myOleDbCommand = myConnection.CreateCommand();
 
-                myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Номер школы] = '" + newname + "'";
-                OleDbDataReader myOleDbDataReader1 = myOleDbCommand.ExecuteReader();
-                while (myOleDbDataReader1.Read())
-                {
-                    MessageBox.Show("'" + myOleDbDataReader1[0].ToString() + "' уже существует");
-                    er = 1;
-                }
-                myOleDbDataReader1.Close();
-
-                if (er != 1)
-                {
-                    myOleDbCommand.CommandText = "UPDATE [Ведомость] SET [Номер школы] = '" + newname + "' WHERE [Номер школы] = '" + pred + "'";
-                    myOleDbCommand.ExecuteNonQuery();
-
-                    myOleDbCommand.CommandText = "SELECT [Номер школы] FROM [Ведомость] WHERE [Район] = " + idcom.ToString();
-                    OleDbDataReader myOleDbDataReader = myOleDbCommand.ExecuteReader();
-                    dataGridView1.RowCount = 1;
-                    int i = 0;
-                    while (myOleDbDataReader.Read())
-                    {
-                        dataGridView1.RowCount += 1;
-                        dataGridView1.Rows[i].Cells[0].Value = myOleDbDataReader[0];
-                        i++;
-                    }
-                    myOleDbDataReader.Close();
-                }
+                myOleDbCommand.CommandText = "UPDATE [Ведомость] SET [Количество учителей] = '" + NewNameTextBox.Text + "' WHERE [Номер школы] = " + CompanyComboBox.SelectedItem.ToString();
+                myOleDbCommand.ExecuteNonQuery();
                 myConnection.Close();
+
+                NewNameTextBox.Text = "";
             }
         }
-    }
-}
 
+        private void NewNameTextBox_TextChanged_1(object sender, EventArgs e)
+        {
+            /*
+                myConnection.Open();
+
+                OleDbCommand myOleDbCommand = myConnection.CreateCommand();
+
+                myOleDbCommand.CommandText = "UPDATE [Ведомость] SET [Количество учителей] = '" + NewNameTextBox.Text + "' WHERE [Номер школы] = " + CompanyComboBox.SelectedItem.ToString();
+                myOleDbCommand.ExecuteNonQuery();
+                myConnection.Close();*/
+            }
+        }
+}
